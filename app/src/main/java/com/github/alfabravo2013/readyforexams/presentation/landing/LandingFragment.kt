@@ -29,9 +29,9 @@ class LandingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = ViewPagerAdapter(this)
         binding.landingViewPager.adapter = adapter
-        TabLayoutMediator(binding.tabLayout, binding.landingViewPager) { _, _ -> }.attach()
+        TabLayoutMediator(binding.landingTabLayout, binding.landingViewPager) { _, _ -> }.attach()
 
-        binding.btnLogin.setOnClickListener {
+        binding.landingLoginButton.setOnClickListener {
             findNavController().navigate(R.id.action_landingFragment_to_loginFragment)
         }
     }
@@ -51,9 +51,7 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> FirstOnboardingFragment()
-            1 -> SecondOnboardingFragment()
-            2 -> ThirdOnboardingFragment()
+            in 0..2 -> FirstOnboardingFragment()
             else -> error("No such page $position")
         }
     }

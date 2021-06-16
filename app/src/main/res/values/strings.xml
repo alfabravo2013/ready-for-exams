@@ -1,12 +1,13 @@
 <resources>
+<!--    App name -->
     <string name="app_name">ReadyForExams</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="btn_login">Log in</string>
-    <string name="text_onboarding_1">Android Mentorship Program</string>
-    <string name="text_onboarding_2">Week 1 Assignment</string>
-    <string name="text_onboarding_3">Onboarding information is to be defined</string>
-    <string name="onboarding_1_img_desc">Students taking an exam</string>
-    <string name="onboarding_2_img_desc">Student watches todo tasks</string>
-    <string name="onboarding_3_img_desc">Student picks a todo card</string>
+
+<!--    Landing screen -->
+    <string name="landing_login_button_text">Log in</string>
+    <string name="landing_header_text_1">Android Mentorship Program</string>
+    <string name="landing_illustration_imgage_description_1">Students taking an exam</string>
+
+<!--    Login screen -->
+    <string name="login_header_text">Hello blank fragment</string>
+
 </resources>

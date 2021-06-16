@@ -8,10 +8,9 @@
     <color name="black">#FF000000</color>
 
 
-    <color name="white">#FFFFFFFF</color>
-    <color name="landing_button_blue">#23A7F1</color>
-    <color name="landing_white">#FFFFFF</color>
-    <color name="landing_page_indicator_blue">#24A3FF</color>
-    <color name="landing_page_indicator_light_gray">#ECF1F4</color>
-    <color name="landing_font_black">#161012</color>
+    <color name="light_blue">#23A7F1</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#24A3FF</color>
+    <color name="light_gray">#ECF1F4</color>
+    <color name="font_black">#161012</color>
 </resources>

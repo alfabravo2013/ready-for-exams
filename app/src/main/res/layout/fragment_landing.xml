@@ -16,11 +16,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+        android:id="@+id/landing_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_login"
+        android:layout_marginBottom="@dimen/margin_xlarge"
+        app:layout_constraintBottom_toTopOf="@id/landing_login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tabBackground="@drawable/tab_selector"
@@ -28,19 +28,12 @@
         app:tabIndicatorGravity="center" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_login"
+        android:id="@+id/landing_login_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/btn_rounded_corner"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/btn_login"
-        android:textAllCaps="false"
-        android:textColor="@color/landing_white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="@string/landing_login_button_text"
+        style="@style/button_primary_big"
+        android:layout_marginBottom="@dimen/margin_xlarge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
