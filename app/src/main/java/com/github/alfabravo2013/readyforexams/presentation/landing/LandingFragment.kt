@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLandingBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class LandingFragment : Fragment() {
     private val viewModel: LandingViewModel by viewModels()
@@ -23,8 +26,35 @@ class LandingFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = ViewPagerAdapter(this)
+        binding.landingViewPager.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.landingViewPager) { _, _ -> }.attach()
+
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_landingFragment_to_loginFragment)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    companion object {
+        private const val TOTAL_PAGES = 3
+    }
+
+    override fun getItemCount(): Int = TOTAL_PAGES
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> FirstOnboardingFragment()
+            1 -> SecondOnboardingFragment()
+            2 -> ThirdOnboardingFragment()
+            else -> error("No such page $position")
+        }
     }
 }

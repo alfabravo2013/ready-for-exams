@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.github.alfabravo2013.readyforexams.LandingFragment"
+        android:name="com.github.alfabravo2013.readyforexams.presentation.landing.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_landing" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.github.alfabravo2013.readyforexams.LoginFragment"
+        android:name="com.github.alfabravo2013.readyforexams.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 </navigation>
