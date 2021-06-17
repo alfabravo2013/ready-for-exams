@@ -49,10 +49,5 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = TOTAL_PAGES
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            in 0..2 -> FirstOnboardingFragment()
-            else -> error("No such page $position")
-        }
-    }
+    override fun createFragment(position: Int): Fragment = FirstOnboardingFragment()
 }
