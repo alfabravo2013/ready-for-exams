@@ -8,8 +8,11 @@
         android:id="@+id/header_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/HeaderText"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
         android:paddingTop="@dimen/padding_base"
+        style="@style/HeaderText"
         android:text="@string/landing_header_text_1" />
 
     <ImageView

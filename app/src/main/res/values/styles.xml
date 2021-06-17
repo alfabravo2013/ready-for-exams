@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="HeaderText">
-        <item name="android:layout_marginTop">@dimen/margin_xlarge</item>
-        <item name="android:layout_marginStart">@dimen/margin_xlarge</item>
-        <item name="android:layout_marginEnd">@dimen/margin_xlarge</item>
         <item name="android:fontFamily">@font/montserrat_bold</item>
         <item name="android:textColor">@color/font_black</item>
         <item name="android:textSize">@dimen/text_xlarge</item>
