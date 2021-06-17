@@ -8,7 +8,7 @@
         android:id="@+id/header_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/text_header"
+        style="@style/HeaderText"
         android:paddingTop="@dimen/padding_base"
         android:text="@string/landing_header_text_1" />
 
