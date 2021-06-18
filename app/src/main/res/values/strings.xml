@@ -8,12 +8,15 @@
     <string name="landing_illustration_imgage_description_1">Students taking an exam</string>
 
 <!--    Login screen -->
-    <string name="login_header_text">Hello blank fragment</string>
+    <string name="login_header_text">Login</string>
     <string name="login_login_button_text">Log in</string>
     <string name="login_email_edit_text_hint">Email address</string>
     <string name="login_password_edit_text_hint">Password</string>
     <string name="login_button_forgot_password_link_text"><u>Forgot password</u></string>
     <string name="login_unregistered_text">Not registered?</string>
     <string name="login_sign_up_link_text"><u>Sign up</u></string>
+    <string name="login_invalid_email_error_text">Please enter a valid email address</string>
+    <string name="login_invalid_password_error_text">Your password should be minimum 9 and maximum 20 characters long</string>
+    <string name="login_login_failed_error_text">You entered an invalid email address or password</string>
 
 </resources>
