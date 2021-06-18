@@ -13,4 +13,13 @@
         <item name="android:textSize">@dimen/text_large</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="InputTextLayoutLogin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/font_black</item>
+        <item name="boxBackgroundColor">@color/light_gray</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+    <style name="EditTextLogin">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
 </resources>

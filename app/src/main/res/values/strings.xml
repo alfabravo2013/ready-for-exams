@@ -10,5 +10,10 @@
 <!--    Login screen -->
     <string name="login_header_text">Hello blank fragment</string>
     <string name="login_login_button_text">Log in</string>
+    <string name="login_email_edit_text_hint">Email address</string>
+    <string name="login_password_edit_text_hint">Password</string>
+    <string name="login_button_forgot_password_link_text"><u>Forgot password</u></string>
+    <string name="login_unregistered_text">Not registered?</string>
+    <string name="login_sign_up_link_text"><u>Sign up</u></string>
 
 </resources>
