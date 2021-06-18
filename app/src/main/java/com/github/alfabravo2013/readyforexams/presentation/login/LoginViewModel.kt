@@ -1,6 +1,5 @@
 package com.github.alfabravo2013.readyforexams.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
