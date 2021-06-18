@@ -1,4 +1,4 @@
-package com.github.alfabravo2013.readyforexams.presentation
+package com.github.alfabravo2013.readyforexams
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

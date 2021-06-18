@@ -17,14 +17,14 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/landing_tab_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_xlarge"
         app:layout_constraintBottom_toTopOf="@id/landing_login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tabBackground="@drawable/tab_selector"
-        app:tabIndicator="@drawable/tab_selector"
+        app:tabIndicator="@drawable/selected_tab_dot"
         app:tabIndicatorGravity="center" />
 
     <androidx.appcompat.widget.AppCompatButton

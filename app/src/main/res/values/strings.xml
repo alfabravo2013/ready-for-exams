@@ -9,5 +9,6 @@
 
 <!--    Login screen -->
     <string name="login_header_text">Hello blank fragment</string>
+    <string name="login_login_button_text">Log in</string>
 
 </resources>
