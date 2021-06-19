@@ -3,20 +3,18 @@ package com.github.alfabravo2013.readyforexams.presentation.login
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLoginBinding
-import com.github.alfabravo2013.readyforexams.presentation.ToolbarFragment
+import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
     private val binding: FragmentLoginBinding by lazy { FragmentLoginBinding.bind(requireView()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        setUpToolbar()
+        enableToolbar(requireContext().getString(R.string.login_header_text))
 
         binding.loginLoginButton.setOnClickListener {
             val enteredEmailAddress = binding.loginEmailEditText.text.toString()
@@ -70,26 +68,5 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun navigateToHomeScreen() {
         Toast.makeText(context, "Navigating to Home", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun setUpToolbar() {
-        val toolbar = ToolbarFragment.getInstance(
-            requireContext().getString(R.string.login_screen_title)
-        )
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.login_fragment_container, toolbar)
-            .commit()
-    }
-
-    override fun onDestroyView() {
-        val toolbar = childFragmentManager.findFragmentById(R.id.toolbar_container)
-        toolbar?.let {
-            childFragmentManager
-                .beginTransaction()
-                .remove(it)
-                .commit()
-        }
-        super.onDestroyView()
     }
 }
