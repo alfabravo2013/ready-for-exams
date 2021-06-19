@@ -9,7 +9,7 @@ fun String.isInvalidEmail(): Boolean = Patterns.EMAIL_ADDRESS.matcher(this).matc
 
 fun String.isInvalidPassword(): Boolean = length !in MIN_PASSWORD_LENGTH..MAX_PASSWORD_LENGTH
 
-open class Event<out T>(private val content: T) {
+open class OneTimeEvent<out T>(private val content: T) {
     private var hasBeenHandled = false
 
     fun getContentIfNotHandled(): T? {

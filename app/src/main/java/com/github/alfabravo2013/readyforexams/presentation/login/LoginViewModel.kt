@@ -1,11 +1,8 @@
 package com.github.alfabravo2013.readyforexams.presentation.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.alfabravo2013.readyforexams.R
-import com.github.alfabravo2013.readyforexams.util.Event
+import com.github.alfabravo2013.readyforexams.util.OneTimeEvent
 import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
 import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
 import kotlinx.coroutines.delay
@@ -15,25 +12,10 @@ class LoginViewModel : ViewModel() {
     private var emailAddress = ""
     private var password = ""
 
-    private val _navigateToHomeScreen = MutableLiveData<Event<Boolean>>()
-    val navigateToHomeScreen: LiveData<Event<Boolean>>
-        get() = _navigateToHomeScreen
-
-    private val _navigateToPasswordResetScreen = MutableLiveData<Event<Boolean>>()
-    val navigateToPasswordResetScreen: LiveData<Event<Boolean>>
-        get() = _navigateToPasswordResetScreen
-
-    private val _navigateToSignupScreen = MutableLiveData<Event<Boolean>>()
-    val navigateToSignupScreen: LiveData<Event<Boolean>>
-        get() = _navigateToSignupScreen
-
-    private val _errorLoginFailed = MutableLiveData<Event<Int>>()
-    val errorLoginFailed: LiveData<Event<Int>>
-        get() = _errorLoginFailed
-
-    private val _showProgressBar = MutableLiveData<Boolean>().apply { value = false }
-    val showProgressBar: LiveData<Boolean>
-        get() = _showProgressBar
+    private val _onEvent = MutableLiveData<OnEvent>()
+    val onEvent: LiveData<OneTimeEvent<OnEvent>> = Transformations.map(_onEvent) { onEvent ->
+        OneTimeEvent(onEvent)
+    }
 
     fun setEmailAddress(emailAddress: String) {
         this.emailAddress = emailAddress
@@ -55,34 +37,43 @@ class LoginViewModel : ViewModel() {
         val mockEmailAddress = "test@test.com"
         val mockPassword = "123456789"
 
-        _showProgressBar.value = true
+        _onEvent.value = OnEvent.ShowProcessing
         delay(1000)
 
         if (emailAddress == mockEmailAddress && password == mockPassword) {
-            _navigateToHomeScreen.value = Event(true)
+            _onEvent.value = OnEvent.NavigateToHomeScreen
         } else {
             val messageResource = R.string.login_login_failed_error_text
-            _errorLoginFailed.value = Event(messageResource)
+            _onEvent.value = OnEvent.Error(messageResource)
         }
 
-        _showProgressBar.value = false
+        _onEvent.value = OnEvent.HideProcessing
     }
 
     private fun showInvalidPasswordError() {
         val messageResource = R.string.login_invalid_password_error_text
-        _errorLoginFailed.value = Event(messageResource)
+        _onEvent.value = OnEvent.Error(messageResource)
     }
 
     private fun showInvalidEmailError() {
         val messageResource = R.string.login_invalid_email_error_text
-        _errorLoginFailed.value = Event(messageResource)
+        _onEvent.value = OnEvent.Error(messageResource)
     }
 
     fun onForgotPasswordLinkClick() {
-        _navigateToPasswordResetScreen.value = Event(true)
+        _onEvent.value = OnEvent.NavigateToPasswordResetScreen
     }
 
     fun onSignupLinkClick() {
-        _navigateToSignupScreen.value = Event(true)
+        _onEvent.value = OnEvent.NavigateToSignupScreen
     }
+}
+
+sealed class OnEvent {
+    object ShowProcessing : OnEvent()
+    object HideProcessing : OnEvent()
+    object NavigateToHomeScreen : OnEvent()
+    object NavigateToSignupScreen : OnEvent()
+    object NavigateToPasswordResetScreen : OnEvent()
+    data class Error(val messageId : Int) : OnEvent()
 }

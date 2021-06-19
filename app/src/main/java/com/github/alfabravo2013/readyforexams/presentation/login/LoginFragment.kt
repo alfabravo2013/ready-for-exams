@@ -33,40 +33,42 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             viewModel.onSignupLinkClick()
         }
 
-        viewModel.errorLoginFailed.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                Toast.makeText(context, context?.getString(it), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        viewModel.navigateToHomeScreen.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                if (it) {
-                    Toast.makeText(context, "Navigating to Home", Toast.LENGTH_SHORT).show()
+        viewModel.onEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { unhandledEvent ->
+                when (unhandledEvent) {
+                    is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen()
+                    is OnEvent.NavigateToSignupScreen -> navigateToSignupScreen()
+                    is OnEvent.NavigateToPasswordResetScreen -> navigateToPasswordResetScreen()
+                    is OnEvent.ShowProcessing -> showProgressBar()
+                    is OnEvent.HideProcessing -> hideProcessBar()
+                    is OnEvent.Error -> showError(unhandledEvent.messageId)
                 }
             }
         }
+    }
 
-        viewModel.navigateToSignupScreen.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                if (it) {
-                    Toast.makeText(context, "Navigating to Signup", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    private fun showError(messageId: Int) {
+        Toast.makeText(context, context?.getString(messageId), Toast.LENGTH_SHORT).show()
+    }
 
-        viewModel.navigateToPasswordResetScreen.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                if (it) {
-                    Toast.makeText(context, "Navigating to Password Reset", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
+    private fun hideProcessBar() {
+        binding.loginProgressBar.visibility = View.GONE
+    }
 
-        viewModel.showProgressBar.observe(viewLifecycleOwner) {
-            binding.loginProgressBar.visibility = if (it == true) View.VISIBLE else View.GONE
-        }
+    private fun showProgressBar() {
+        binding.loginProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun navigateToPasswordResetScreen() {
+        Toast.makeText(context, "Navigating to Password Reset", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToSignupScreen() {
+        Toast.makeText(context, "Navigating to Signup", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToHomeScreen() {
+        Toast.makeText(context, "Navigating to Home", Toast.LENGTH_SHORT).show()
     }
 
     private fun setUpToolbar() {
