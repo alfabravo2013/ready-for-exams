@@ -9,6 +9,7 @@ import com.github.alfabravo2013.readyforexams.databinding.FragmentToolbarBinding
 class ToolbarFragment : Fragment(R.layout.fragment_toolbar) {
     companion object {
         private const val TITLE_KEY = "TOOLBAR_TITLE"
+
         fun getInstance(title: String) : ToolbarFragment {
             val arg = Bundle().apply { putString(TITLE_KEY, title) }
             val toolbar = ToolbarFragment()
