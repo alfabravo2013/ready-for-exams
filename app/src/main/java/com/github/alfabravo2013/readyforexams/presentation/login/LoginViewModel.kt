@@ -67,13 +67,13 @@ class LoginViewModel : ViewModel() {
     fun onSignupLinkClick() {
         _onEvent.value = OnEvent.NavigateToSignupScreen
     }
-}
 
-sealed class OnEvent {
-    object ShowProcessing : OnEvent()
-    object HideProcessing : OnEvent()
-    object NavigateToHomeScreen : OnEvent()
-    object NavigateToSignupScreen : OnEvent()
-    object NavigateToPasswordResetScreen : OnEvent()
-    data class Error(val messageId : Int) : OnEvent()
+    sealed class OnEvent {
+        object ShowProcessing : OnEvent()
+        object HideProcessing : OnEvent()
+        object NavigateToHomeScreen : OnEvent()
+        object NavigateToSignupScreen : OnEvent()
+        object NavigateToPasswordResetScreen : OnEvent()
+        data class Error(val messageId : Int) : OnEvent()
+    }
 }

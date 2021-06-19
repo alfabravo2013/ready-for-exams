@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLoginBinding
 import com.github.alfabravo2013.readyforexams.presentation.ToolbarFragment
+import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
