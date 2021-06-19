@@ -11,9 +11,10 @@ import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
-    private val binding: FragmentLoginBinding by lazy { FragmentLoginBinding.bind(requireView()) }
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentLoginBinding.bind(view)
         enableToolbar(requireContext().getString(R.string.login_header_text))
 
         binding.loginLoginButton.setOnClickListener {

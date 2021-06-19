@@ -7,9 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.github.alfabravo2013.readyforexams.R
 
-abstract class BaseFragment : Fragment {
-    constructor(@LayoutRes layoutId: Int) : super(layoutId)
-    constructor() : super()
+abstract class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
 
     fun enableToolbar(title: String = "") {
         requireActivity()
