@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLoginBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
@@ -14,13 +15,13 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
 
-    private val onEventObserver = Observer<OnEvent> {event ->
+    private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
             is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen()
             is OnEvent.NavigateToSignupScreen -> navigateToSignupScreen()
             is OnEvent.NavigateToPasswordResetScreen -> navigateToPasswordResetScreen()
             is OnEvent.ShowProgress -> binding.loginProgressBar.visibility = View.VISIBLE
-            is OnEvent.HideProgress ->  binding.loginProgressBar.visibility = View.GONE
+            is OnEvent.HideProgress -> binding.loginProgressBar.visibility = View.GONE
             is OnEvent.Error -> showError(event.messageId)
         }
     }
@@ -54,14 +55,14 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun navigateToPasswordResetScreen() {
-        Toast.makeText(context, "Navigating to Password Reset", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_loginFragment_to_passwordResetFragment)
     }
 
     private fun navigateToSignupScreen() {
-        Toast.makeText(context, "Navigating to Signup", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
     }
 
     private fun navigateToHomeScreen() {
-        Toast.makeText(context, "Navigating to Home", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 }

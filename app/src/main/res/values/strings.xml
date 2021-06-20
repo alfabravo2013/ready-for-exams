@@ -19,5 +19,8 @@
     <string name="login_invalid_password_error_text">Your password should be minimum 9 and maximum 20 characters long</string>
     <string name="login_login_failed_error_text">You entered an invalid email address or password</string>
     <string name="login_screen_title">Login</string>
+    <string name="password_reset_header_text">Reset Your Password</string>
+    <string name="signup_header_text">Sign up</string>
+    <string name="home_title_text">Home Screen</string>
 
 </resources>
