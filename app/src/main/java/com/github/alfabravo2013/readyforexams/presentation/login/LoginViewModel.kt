@@ -3,6 +3,8 @@ package com.github.alfabravo2013.readyforexams.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.R
+import com.github.alfabravo2013.readyforexams.repository.AuthenticationResult
+import com.github.alfabravo2013.readyforexams.repository.LoginRepositoryImpl
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
 import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
 import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
@@ -10,6 +12,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
+    // temporary solution until DI is set up
+    private val authenticationApi = LoginRepositoryImpl
+
     private var emailAddress = ""
     private var password = ""
 
@@ -33,13 +38,10 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun authenticateUser() = viewModelScope.launch {
-        val mockEmailAddress = "test@test.com"
-        val mockPassword = "123456789"
-
         _onEvent.value = OnEvent.ShowProgress
         delay(1000)
 
-        if (emailAddress == mockEmailAddress && password == mockPassword) {
+        if (authenticationApi.singIn(emailAddress, password) is AuthenticationResult.Success) {
             _onEvent.value = OnEvent.NavigateToHomeScreen
         } else {
             val messageResource = R.string.login_login_failed_error_text
