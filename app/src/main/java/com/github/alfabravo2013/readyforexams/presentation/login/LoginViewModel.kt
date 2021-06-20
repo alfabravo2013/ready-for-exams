@@ -36,7 +36,7 @@ class LoginViewModel : ViewModel() {
         val mockEmailAddress = "test@test.com"
         val mockPassword = "123456789"
 
-        _onEvent.value = OnEvent.ShowProcessing
+        _onEvent.value = OnEvent.ShowProgress
         delay(1000)
 
         if (emailAddress == mockEmailAddress && password == mockPassword) {
@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
             _onEvent.value = OnEvent.Error(messageResource)
         }
 
-        _onEvent.value = OnEvent.HideProcessing
+        _onEvent.value = OnEvent.HideProgress
     }
 
     private fun showInvalidPasswordError() {
@@ -68,8 +68,8 @@ class LoginViewModel : ViewModel() {
     }
 
     sealed class OnEvent {
-        object ShowProcessing : OnEvent()
-        object HideProcessing : OnEvent()
+        object ShowProgress : OnEvent()
+        object HideProgress : OnEvent()
         object NavigateToHomeScreen : OnEvent()
         object NavigateToSignupScreen : OnEvent()
         object NavigateToPasswordResetScreen : OnEvent()

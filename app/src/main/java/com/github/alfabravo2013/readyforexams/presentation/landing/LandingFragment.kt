@@ -18,7 +18,8 @@ class LandingFragment : BaseFragment(R.layout.fragment_landing) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentLandingBinding.bind(view)
-        disableToolbar()
+
+        setToolbarTitle()
 
         val adapter = ViewPagerAdapter(this)
         binding.landingViewPager.adapter = adapter
