@@ -1,8 +1,14 @@
 package com.github.alfabravo2013.readyforexams.presentation.login
 
-import androidx.lifecycle.*
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.util.OneTimeEvent
+import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
 import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
 import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
 import kotlinx.coroutines.delay
@@ -12,10 +18,8 @@ class LoginViewModel : ViewModel() {
     private var emailAddress = ""
     private var password = ""
 
-    private val _onEvent = MutableLiveData<OnEvent>()
-    val onEvent: LiveData<OneTimeEvent<OnEvent>> = Transformations.map(_onEvent) { onEvent ->
-        OneTimeEvent(onEvent)
-    }
+    private val _onEvent = SingleLiveEvent<OnEvent>()
+    val onEvent: SingleLiveEvent<OnEvent> get() = _onEvent
 
     fun setEmailAddress(emailAddress: String) {
         this.emailAddress = emailAddress

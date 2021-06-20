@@ -34,15 +34,13 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { unhandledEvent ->
-                when (unhandledEvent) {
-                    is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen()
-                    is OnEvent.NavigateToSignupScreen -> navigateToSignupScreen()
-                    is OnEvent.NavigateToPasswordResetScreen -> navigateToPasswordResetScreen()
-                    is OnEvent.ShowProcessing -> showProgressBar()
-                    is OnEvent.HideProcessing -> hideProcessBar()
-                    is OnEvent.Error -> showError(unhandledEvent.messageId)
-                }
+            when (event) {
+                is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen()
+                is OnEvent.NavigateToSignupScreen -> navigateToSignupScreen()
+                is OnEvent.NavigateToPasswordResetScreen -> navigateToPasswordResetScreen()
+                is OnEvent.ShowProcessing -> showProgressBar()
+                is OnEvent.HideProcessing -> hideProcessBar()
+                is OnEvent.Error -> showError(event.messageId)
             }
         }
     }
