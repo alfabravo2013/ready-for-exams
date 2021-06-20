@@ -8,7 +8,6 @@ import com.github.alfabravo2013.readyforexams.repository.LoginRepositoryImpl
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
 import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
 import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -39,7 +38,6 @@ class LoginViewModel : ViewModel() {
 
     private fun authenticateUser() = viewModelScope.launch {
         _onEvent.value = OnEvent.ShowProgress
-        delay(1000)
 
         if (authenticationApi.singIn(emailAddress, password) is AuthenticationResult.Success) {
             _onEvent.value = OnEvent.NavigateToHomeScreen
