@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     // temporary solution until DI is set up
-    private val authenticationApi = LoginRepositoryImpl
+    private val loginRepository = LoginRepositoryImpl
 
     private var emailAddress = ""
     private var password = ""
@@ -39,7 +39,7 @@ class LoginViewModel : ViewModel() {
     private fun authenticateUser() = viewModelScope.launch {
         _onEvent.value = OnEvent.ShowProgress
 
-        if (authenticationApi.singIn(emailAddress, password) is AuthenticationResult.Success) {
+        if (loginRepository.singIn(emailAddress, password) is AuthenticationResult.Success) {
             _onEvent.value = OnEvent.NavigateToHomeScreen
         } else {
             val messageResource = R.string.login_login_failed_error_text

@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentLoginBinding.bind(view)
 
-        setToolbarTitle(requireContext().getString(R.string.login_header_text))
+        setTitle()
 
         binding.loginLoginButton.setOnClickListener {
             val enteredEmailAddress = binding.loginEmailEditText.text.toString()
@@ -48,6 +48,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+    }
+
+    private fun setTitle() {
+        val title = requireContext().getString(R.string.login_header_text)
+        setToolbarTitle(title)
     }
 
     private fun showError(messageId: Int) {
