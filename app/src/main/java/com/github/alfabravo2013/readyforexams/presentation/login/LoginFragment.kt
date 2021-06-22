@@ -32,9 +32,9 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         setTitle()
 
         binding.loginLoginButton.setOnClickListener {
-            val enteredEmailAddress = binding.loginEmailEditText.text.toString()
+            val enteredEmail = binding.loginEmailEditText.text.toString()
             val enteredPassword = binding.loginPasswordEditText.text.toString()
-            viewModel.setEmailAddress(enteredEmailAddress)
+            viewModel.setEmailAddress(enteredEmail)
             viewModel.setPassword(enteredPassword)
             viewModel.onLoginButtonClick()
         }
@@ -51,7 +51,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun setTitle() {
-        val title = requireContext().getString(R.string.login_header_text)
+        val title = requireContext().getString(R.string.login_screen_title)
         setToolbarTitle(title)
     }
 

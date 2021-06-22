@@ -1,8 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.signup.SignupFragment">
+    android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/signup_success_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/padding_base"
+            android:text="@string/signup_success_text" />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:padding="@dimen/padding_base"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_landing_onboarding_3"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signup_success_dialog_back_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:text="@string/signup_success_dialog_back_button_text" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signup_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signup_email_text_input_layout"
+            style="@style/TextInputLayoutLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_base"
+            app:layout_constraintBottom_toTopOf="@id/signup_password_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signup_email_edit_text"
+                style="@style/EditTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/signup_email_edit_text_hint"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signup_password_text_input_layout"
+            style="@style/TextInputLayoutLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginTop="@dimen/margin_base"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            app:endIconMode="password_toggle"
+            app:layout_constraintBottom_toTopOf="@id/signup_signup_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signup_email_text_input_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signup_password_edit_text"
+                style="@style/EditTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/signup_password_edit_text_hint"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/HeaderText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:text="@string/signup_signup_info_text"
+            android:textSize="@dimen/text_large"
+            app:layout_constraintBottom_toTopOf="@id/signup_email_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signup_signup_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:text="@string/signup_login_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/signup_progress_bar"
+            style="android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/signup_signup_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signup_password_text_input_layout"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
