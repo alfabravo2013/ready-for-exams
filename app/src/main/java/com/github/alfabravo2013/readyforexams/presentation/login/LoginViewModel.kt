@@ -36,6 +36,14 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun onForgotPasswordLinkClick() {
+        _onEvent.value = OnEvent.NavigateToPasswordResetScreen
+    }
+
+    fun onSignupLinkClick() {
+        _onEvent.value = OnEvent.NavigateToSignupScreen
+    }
+
     private fun authenticateUser() = viewModelScope.launch {
         _onEvent.value = OnEvent.ShowProgress
 
@@ -57,14 +65,6 @@ class LoginViewModel : ViewModel() {
     private fun showInvalidEmailError() {
         val messageResource = R.string.login_invalid_email_error_text
         _onEvent.value = OnEvent.Error(messageResource)
-    }
-
-    fun onForgotPasswordLinkClick() {
-        _onEvent.value = OnEvent.NavigateToPasswordResetScreen
-    }
-
-    fun onSignupLinkClick() {
-        _onEvent.value = OnEvent.NavigateToSignupScreen
     }
 
     sealed class OnEvent {

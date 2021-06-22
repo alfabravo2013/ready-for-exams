@@ -27,6 +27,15 @@ class SignupViewModel : ViewModel() {
         }
     }
 
+    fun onSuccessDialogBackButtonClick() {
+        _onEvent.value = OnEvent.NavigateToLoginScreen
+    }
+
+    fun checkSignupStatus() {
+        if (isSignUpSuccessful) {
+            _onEvent.value = OnEvent.SignupSuccess
+        }
+    }
     private fun registerUser(email: String, password: String) = viewModelScope.launch {
         _onEvent.value = OnEvent.ShowProgress
 
@@ -49,16 +58,6 @@ class SignupViewModel : ViewModel() {
     private fun showInvalidEmailError() {
         val messageResource = R.string.signup_invalid_email_error_text
         _onEvent.value = OnEvent.Error(messageResource)
-    }
-
-    fun onSuccessDialogBackButtonClick() {
-        _onEvent.value = OnEvent.NavigateToLoginScreen
-    }
-
-    fun checkSignupStatus() {
-        if (isSignUpSuccessful) {
-            _onEvent.value = OnEvent.SignupSuccess
-        }
     }
 
     sealed class OnEvent {
