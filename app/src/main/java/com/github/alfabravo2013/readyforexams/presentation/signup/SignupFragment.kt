@@ -29,10 +29,7 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
         binding = FragmentSignupBinding.bind(view)
 
         setToolbar()
-
-        if (viewModel.signUpSuccess) {
-            showSignupSuccessDialog()
-        }
+        viewModel.checkSignupStatus()
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
 
@@ -58,10 +55,12 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
     }
 
     private fun showSignupSuccessDialog() {
-        binding.signupFragmentContainer.visibility = View.GONE
-        binding.signupSuccessDialog.visibility = View.VISIBLE
-        binding.signupSuccessDialogBackButton.setOnClickListener {
-            viewModel.onSuccessDialogBackButtonClick()
+        with(binding) {
+            signupFragmentContainer.visibility = View.GONE
+            signupSuccessDialog.visibility = View.VISIBLE
+            signupSuccessDialogBackButton.setOnClickListener {
+                viewModel.onSuccessDialogBackButtonClick()
+            }
         }
     }
 }

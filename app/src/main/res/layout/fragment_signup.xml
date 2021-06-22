@@ -25,8 +25,8 @@
                 android:text="@string/signup_success_text" />
 
             <ImageView
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="@dimen/signup_success_image_size"
+                android:layout_height="@dimen/signup_success_image_size"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginTop="@dimen/margin_xlarge"
