@@ -19,7 +19,7 @@ object LoginRepositoryImpl : LoginRepository {
         withContext(Dispatchers.IO) {
             delay(getNetworkDelay())
             if (registeredUsers.containsKey(email)) {
-                AuthenticationResult.Failure("Such email already exists")
+                AuthenticationResult.Failure()
             } else {
                 registeredUsers[email] = password
                 AuthenticationResult.Success()
