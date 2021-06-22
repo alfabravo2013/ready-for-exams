@@ -30,6 +30,10 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
 
         setToolbar()
 
+        if (viewModel.signUpSuccess) {
+            showSignupSuccessDialog()
+        }
+
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
 
         binding.signupSignupButton.setOnClickListener {

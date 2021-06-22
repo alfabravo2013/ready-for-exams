@@ -5,43 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/signup_success_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            style="@style/HeaderText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="@dimen/padding_base"
-            android:text="@string/signup_success_text" />
-
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_xlarge"
-            android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:padding="@dimen/padding_base"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_landing_onboarding_3"
-            tools:ignore="ContentDescription" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signup_success_dialog_back_button"
-            style="@style/ButtonPrimary"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xlarge"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginEnd="@dimen/margin_xlarge"
-            android:text="@string/signup_success_dialog_back_button_text" />
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/HeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/padding_base"
+                android:text="@string/signup_success_text" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:padding="@dimen/padding_base"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_landing_onboarding_3"
+                tools:ignore="ContentDescription" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_success_dialog_back_button"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:text="@string/signup_success_dialog_back_button_text" />
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signup_fragment_container"

@@ -16,6 +16,9 @@ class SignupViewModel : ViewModel() {
     private val _onEvent = SingleLiveEvent<OnEvent>()
     val onEvent: SingleLiveEvent<OnEvent> get() = _onEvent
 
+    var signUpSuccess = false
+        private set
+
     fun onSignupButtonClick(email: String, password: String) {
         when {
             email.isInvalidEmail() -> showInvalidEmailError()
@@ -28,6 +31,7 @@ class SignupViewModel : ViewModel() {
         _onEvent.value = OnEvent.ShowProgress
 
         if (loginRepository.signUp(email, password) is AuthenticationResult.Success) {
+            signUpSuccess = true
             _onEvent.value = OnEvent.SignupSuccess
         } else {
             val messageResource = R.string.signup_registration_failed_error_text
@@ -56,6 +60,6 @@ class SignupViewModel : ViewModel() {
         object HideProgress : OnEvent()
         object SignupSuccess : OnEvent()
         object NavigateToLoginScreen : OnEvent()
-        data class Error(val messageId : Int) : OnEvent()
+        data class Error(val messageId: Int) : OnEvent()
     }
 }
