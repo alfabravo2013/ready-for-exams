@@ -3,16 +3,16 @@ package com.github.alfabravo2013.readyforexams.presentation.login
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLoginBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
+import org.koin.android.ext.android.inject
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by inject()
     private lateinit var binding: FragmentLoginBinding
 
     private val onEventObserver = Observer<OnEvent> { event ->
