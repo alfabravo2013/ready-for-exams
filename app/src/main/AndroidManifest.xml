@@ -3,7 +3,7 @@
     package="com.github.alfabravo2013.readyforexams">
 
     <application
-        android:name=".ReadyForExamApp"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

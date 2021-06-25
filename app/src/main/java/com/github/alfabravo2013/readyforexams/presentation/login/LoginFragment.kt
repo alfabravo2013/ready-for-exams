@@ -9,10 +9,10 @@ import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLoginBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-    private val viewModel: LoginViewModel by inject()
+    private val viewModel: LoginViewModel by viewModel()
     private lateinit var binding: FragmentLoginBinding
 
     private val onEventObserver = Observer<OnEvent> { event ->

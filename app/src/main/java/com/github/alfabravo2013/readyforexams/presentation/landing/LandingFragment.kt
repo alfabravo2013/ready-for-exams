@@ -9,10 +9,10 @@ import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentLandingBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LandingFragment : BaseFragment(R.layout.fragment_landing) {
-    private val viewModel: LandingViewModel by inject()
+    private val viewModel: LandingViewModel by viewModel()
 
     private lateinit var binding: FragmentLandingBinding
 

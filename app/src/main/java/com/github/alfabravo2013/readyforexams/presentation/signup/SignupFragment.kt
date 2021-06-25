@@ -9,10 +9,10 @@ import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentSignupBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.signup.SignupViewModel.OnEvent
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignupFragment : BaseFragment(R.layout.fragment_signup) {
-    private val viewModel: SignupViewModel by inject()
+    private val viewModel: SignupViewModel by viewModel()
     private lateinit var binding: FragmentSignupBinding
 
     private val onEventObserver = Observer<OnEvent> { event ->

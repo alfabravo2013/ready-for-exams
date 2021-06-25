@@ -5,10 +5,10 @@ import android.view.View
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentPasswordResetBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PasswordResetFragment : BaseFragment(R.layout.fragment_password_reset) {
-    private val viewModel: PasswordResetViewModel by inject()
+    private val viewModel: PasswordResetViewModel by viewModel()
     private lateinit var binding: FragmentPasswordResetBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
