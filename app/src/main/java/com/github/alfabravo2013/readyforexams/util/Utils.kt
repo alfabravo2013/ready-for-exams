@@ -33,3 +33,8 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         value = null
     }
 }
+
+sealed class Result {
+    object Success : Result()
+    object Failure : Result()
+}

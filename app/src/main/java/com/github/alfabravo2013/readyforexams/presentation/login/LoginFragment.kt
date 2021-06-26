@@ -34,9 +34,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         binding.loginLoginButton.setOnClickListener {
             val enteredEmail = binding.loginEmailEditText.text.toString()
             val enteredPassword = binding.loginPasswordEditText.text.toString()
-            viewModel.setEmailAddress(enteredEmail)
-            viewModel.setPassword(enteredPassword)
-            viewModel.onLoginButtonClick()
+            viewModel.onLoginButtonClick(enteredEmail, enteredPassword)
         }
 
         binding.loginForgotPasswordLink.setOnClickListener {
