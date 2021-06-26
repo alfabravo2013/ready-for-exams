@@ -3,16 +3,16 @@ package com.github.alfabravo2013.readyforexams.presentation.signup
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentSignupBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.signup.SignupViewModel.OnEvent
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignupFragment : BaseFragment(R.layout.fragment_signup) {
-    private val viewModel: SignupViewModel by viewModels()
+    private val viewModel: SignupViewModel by viewModel()
     private lateinit var binding: FragmentSignupBinding
 
     private val onEventObserver = Observer<OnEvent> { event ->
