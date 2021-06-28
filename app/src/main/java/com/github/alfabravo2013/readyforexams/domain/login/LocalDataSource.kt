@@ -11,7 +11,7 @@ class LocalDataSource {
 
     fun signUp(email: String, password: String): Result {
         return if (registeredUsers.containsKey(email)) {
-            Result.Failure("Unknown email")
+            Result.Failure("Invalid email")
         } else {
             registeredUsers[email] = password
             Result.Success

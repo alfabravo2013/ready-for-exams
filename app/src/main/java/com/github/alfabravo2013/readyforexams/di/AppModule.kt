@@ -10,7 +10,5 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { LandingViewModel() }
-    viewModel { SignupViewModel() }
-    viewModel { PasswordResetViewModel() }
     viewModel { HomeViewModel() }
 }
