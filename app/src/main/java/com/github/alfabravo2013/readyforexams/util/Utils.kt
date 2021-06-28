@@ -36,5 +36,5 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
 
 sealed class Result {
     object Success : Result()
-    object Failure : Result()
+    data class Failure(val errorMessage: String = "") : Result()
 }

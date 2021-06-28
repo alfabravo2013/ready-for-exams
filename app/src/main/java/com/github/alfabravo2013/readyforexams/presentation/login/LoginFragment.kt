@@ -22,7 +22,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             is OnEvent.NavigateToPasswordResetScreen -> navigateToPasswordResetScreen()
             is OnEvent.ShowProgress -> binding.loginProgressBar.visibility = View.VISIBLE
             is OnEvent.HideProgress -> binding.loginProgressBar.visibility = View.GONE
-            is OnEvent.Error -> showError(event.messageId)
+            is OnEvent.Error -> showError(event.message)
         }
     }
 
@@ -53,8 +53,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         setToolbarTitle(title)
     }
 
-    private fun showError(messageId: Int) {
-        Toast.makeText(context, context?.getString(messageId), Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToPasswordResetScreen() {
