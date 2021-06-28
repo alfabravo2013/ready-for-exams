@@ -36,4 +36,7 @@
     <string name="signup_invalid_email_error_text">@string/login_invalid_email_error_text</string>
     <string name="signup_success_text">Congratulations! Your account was successfully registered</string>
     <string name="signup_success_dialog_back_button_text">Back to Log in</string>
+    <string name="signup_password_confirm_edit_text_hint">Confirm password</string>
+    <string name="password_reset_info_text">Enter your email to reset your password</string>
+    <string name="password_reset_button_text">Reset password</string>
 </resources>
