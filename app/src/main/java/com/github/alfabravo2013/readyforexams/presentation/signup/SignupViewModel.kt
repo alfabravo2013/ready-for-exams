@@ -2,28 +2,31 @@ package com.github.alfabravo2013.readyforexams.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.alfabravo2013.readyforexams.R
-import com.github.alfabravo2013.readyforexams.repository.AuthenticationResult
-import com.github.alfabravo2013.readyforexams.repository.LoginRepositoryImpl
+import com.github.alfabravo2013.readyforexams.domain.signup.SignupUseCase
+import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
-import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
-import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
 import kotlinx.coroutines.launch
 
-class SignupViewModel : ViewModel() {
-    private val loginRepository = LoginRepositoryImpl
+class SignupViewModel(private val signupUseCase: SignupUseCase) : ViewModel() {
 
     private val _onEvent = SingleLiveEvent<OnEvent>()
     val onEvent: SingleLiveEvent<OnEvent> get() = _onEvent
 
-    var isSignUpSuccessful = false
-        private set
+    private var isSignUpSuccessful = false
 
-    fun onSignupButtonClick(email: String, password: String) {
-        when {
-            email.isInvalidEmail() -> showInvalidEmailError()
-            password.isInvalidPassword() -> showInvalidPasswordError()
-            else -> registerUser(email, password)
+    fun onSignupButtonClick(email: String, password: String, confirmedPassword: String) {
+        viewModelScope.launch {
+            _onEvent.value = OnEvent.ShowProgress
+            when (val result = signupUseCase.signup(email, password, confirmedPassword)) {
+                is Result.Success -> {
+                    isSignUpSuccessful = true
+                    _onEvent.value = OnEvent.SignupSuccess
+                }
+                is Result.Failure -> {
+                    _onEvent.value = OnEvent.Error(result.errorMessage)
+                }
+            }
+            _onEvent.value = OnEvent.HideProgress
         }
     }
 
@@ -36,35 +39,12 @@ class SignupViewModel : ViewModel() {
             _onEvent.value = OnEvent.SignupSuccess
         }
     }
-    private fun registerUser(email: String, password: String) = viewModelScope.launch {
-        _onEvent.value = OnEvent.ShowProgress
-
-        if (loginRepository.signUp(email, password) is AuthenticationResult.Success) {
-            isSignUpSuccessful = true
-            _onEvent.value = OnEvent.SignupSuccess
-        } else {
-            val messageResource = R.string.signup_registration_failed_error_text
-            _onEvent.value = OnEvent.Error(messageResource)
-        }
-
-        _onEvent.value = OnEvent.HideProgress
-    }
-
-    private fun showInvalidPasswordError() {
-        val messageResource = R.string.signup_invalid_password_error_text
-        _onEvent.value = OnEvent.Error(messageResource)
-    }
-
-    private fun showInvalidEmailError() {
-        val messageResource = R.string.signup_invalid_email_error_text
-        _onEvent.value = OnEvent.Error(messageResource)
-    }
 
     sealed class OnEvent {
         object ShowProgress : OnEvent()
         object HideProgress : OnEvent()
         object SignupSuccess : OnEvent()
         object NavigateToLoginScreen : OnEvent()
-        data class Error(val messageId: Int) : OnEvent()
+        data class Error(val message: String) : OnEvent()
     }
 }

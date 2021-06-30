@@ -20,7 +20,7 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
             is OnEvent.NavigateToLoginScreen -> navigateToLoginScreen()
             is OnEvent.ShowProgress -> binding.signupProgressBar.visibility = View.VISIBLE
             is OnEvent.HideProgress -> binding.signupProgressBar.visibility = View.GONE
-            is OnEvent.Error -> showError(event.messageId)
+            is OnEvent.Error -> showError(event.message)
             is OnEvent.SignupSuccess -> showSignupSuccessDialog()
         }
     }
@@ -33,10 +33,13 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
 
-        binding.signupSignupButton.setOnClickListener {
-            val enteredEmail = binding.signupEmailEditText.text.toString()
-            val enteredPassword = binding.signupPasswordEditText.text.toString()
-            viewModel.onSignupButtonClick(enteredEmail, enteredPassword)
+        with(binding) {
+            signupSignupButton.setOnClickListener {
+                val enteredEmail = signupEmailEditText.text.toString()
+                val enteredPassword = signupPasswordEditText.text.toString()
+                val confirmedPassword = signupPasswordConfirmEditText.text.toString()
+                viewModel.onSignupButtonClick(enteredEmail, enteredPassword, confirmedPassword)
+            }
         }
     }
 
@@ -45,9 +48,8 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
         setToolbarTitle(title)
     }
 
-    private fun showError(messageId: Int) {
-        val context = requireContext()
-        Toast.makeText(context, context.getString(messageId), Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToLoginScreen() {
