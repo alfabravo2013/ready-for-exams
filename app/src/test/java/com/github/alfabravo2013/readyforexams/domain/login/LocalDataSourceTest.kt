@@ -15,8 +15,10 @@ import org.koin.test.junit5.KoinTestExtension
 internal class LocalDataSourceTest : KoinTest {
     private val localDataSource by inject<LocalDataSource>()
 
-    private val defaultEmail = "test@test.com"
-    private val defaultPassword = "123456789"
+    private val registeredEmail = "test@test.com"
+    private val unregisteredEmail = "unique@test.com"
+    private val correctPassword = "123456789"
+    private val incorrectPassword = "987654321"
 
     @JvmField
     @RegisterExtension
@@ -33,19 +35,17 @@ internal class LocalDataSourceTest : KoinTest {
     inner class SignUpTest {
 
         @Test
-        @DisplayName("Given non-unique email When signup Then Result.Failure")
-        fun signUpWithNonUniqueEmail() {
-            val actual = localDataSource.signUp(defaultEmail, defaultPassword)
+        @DisplayName("Given registered email When signup Then Result.Failure")
+        fun signUpWithRegisteredEmail() {
+            val actual = localDataSource.signUp(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
         }
 
         @Test
-        @DisplayName("Given unique email When signup Then Result.Success")
-        fun signUpWithUniqueEmail() {
-            val uniqueEmail = "unique@test.com"
-
-            val actual = localDataSource.signUp(uniqueEmail, defaultPassword)
+        @DisplayName("Given unregistered email When signup Then Result.Success")
+        fun signUpWithUnregisteredEmail() {
+            val actual = localDataSource.signUp(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
         }
@@ -56,19 +56,17 @@ internal class LocalDataSourceTest : KoinTest {
     inner class ResetPasswordTest {
 
         @Test
-        @DisplayName("Given existing email When resetPassword Then Result.Success")
-        fun resetPasswordWithExistingEmail() {
-            val actual = localDataSource.resetPassword(defaultEmail)
+        @DisplayName("Given registered email When resetPassword Then Result.Success")
+        fun resetPasswordWithRegisteredEmail() {
+            val actual = localDataSource.resetPassword(registeredEmail)
 
             assertTrue(actual is Result.Success)
         }
 
         @Test
-        @DisplayName("Given non-existing email When resetPassword Then Result.Failure")
-        fun resetPasswordWithNonExistingEmail() {
-            val nonExistingEmail = "doesnotexist@test.com"
-
-            val actual = localDataSource.resetPassword(nonExistingEmail)
+        @DisplayName("Given unregistered email When resetPassword Then Result.Failure")
+        fun resetPasswordWithUnregisteredEmail() {
+            val actual = localDataSource.resetPassword(unregisteredEmail)
 
             assertTrue(actual is Result.Failure)
         }
@@ -76,43 +74,36 @@ internal class LocalDataSourceTest : KoinTest {
 
     @Nested
     @DisplayName("login() tests")
-    inner class LoginTests() {
+    inner class LoginTests {
 
         @Test
-        @DisplayName("Given existing email and correct password When login Then Result.Success")
-        fun loginExistingEmailAndPassword() {
-            val actual = localDataSource.login(defaultEmail, defaultPassword)
+        @DisplayName("Given registered email and correct password When login Then Result.Success")
+        fun loginWithRegisteredEmailAndCorrectPassword() {
+            val actual = localDataSource.login(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
         }
 
         @Test
-        @DisplayName("Given existing email and incorrect password When login Then Result.Failure")
-        fun loginExistingEmailAndIncorrectPassword() {
-            val incorrectPassword = "987654321"
-
-            val actual = localDataSource.login(defaultEmail, incorrectPassword)
+        @DisplayName("Given registered email and incorrect password When login Then Result.Failure")
+        fun loginWithRegisteredEmailAndIncorrectPassword() {
+            val actual = localDataSource.login(registeredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
         }
 
         @Test
         @DisplayName("Given non-existing email and correct password When login Then Result.Failure")
-        fun loginNonExistingEmailAndCorrectPassword() {
-            val nonExistingEmail = "nonexisting@test.com"
-
-            val actual = localDataSource.login(nonExistingEmail, defaultPassword)
+        fun loginWithUnregisteredEmailAndCorrectPassword() {
+            val actual = localDataSource.login(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
         }
 
         @Test
         @DisplayName("Given non-existing email and incorrect password When login Then Result.Failure")
-        fun loginNonExistingEmailAndIncorrectPassword() {
-            val nonExistingEmail = "nonexisting@test.com"
-            val incorrectPassword = "987654321"
-
-            val actual = localDataSource.login(nonExistingEmail, incorrectPassword)
+        fun loginWithUnregisteredEmailAndIncorrectPassword() {
+            val actual = localDataSource.login(unregisteredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
         }
