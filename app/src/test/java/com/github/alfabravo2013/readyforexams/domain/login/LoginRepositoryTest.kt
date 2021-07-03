@@ -3,11 +3,10 @@ package com.github.alfabravo2013.readyforexams.domain.login
 import com.github.alfabravo2013.readyforexams.util.Result
 import io.mockk.spyk
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
 
 internal class LoginRepositoryTest {
     private val localDataSource = spyk<LocalDataSource>()
@@ -71,7 +70,7 @@ internal class LoginRepositoryTest {
         fun signUpWithRegisteredEmail() {
             val actual = localDataSource.signUp(registeredEmail, correctPassword)
 
-            Assertions.assertTrue(actual is Result.Failure)
+            assertTrue(actual is Result.Failure)
 
             verify { localDataSource.signUp(registeredEmail, correctPassword) }
         }
@@ -81,7 +80,7 @@ internal class LoginRepositoryTest {
         fun signUpWithUnregisteredEmail() {
             val actual = localDataSource.signUp(unregisteredEmail, correctPassword)
 
-            Assertions.assertTrue(actual is Result.Success)
+            assertTrue(actual is Result.Success)
 
             verify { localDataSource.signUp(unregisteredEmail, correctPassword) }
         }
@@ -96,7 +95,7 @@ internal class LoginRepositoryTest {
         fun resetPasswordWithRegisteredEmail() {
             val actual = localDataSource.resetPassword(registeredEmail)
 
-            Assertions.assertTrue(actual is Result.Success)
+            assertTrue(actual is Result.Success)
 
             verify { localDataSource.resetPassword(registeredEmail) }
         }
@@ -106,7 +105,7 @@ internal class LoginRepositoryTest {
         fun resetPasswordWithUnregisteredEmail() {
             val actual = localDataSource.resetPassword(unregisteredEmail)
 
-            Assertions.assertTrue(actual is Result.Failure)
+            assertTrue(actual is Result.Failure)
 
             verify { localDataSource.resetPassword(unregisteredEmail) }
         }
