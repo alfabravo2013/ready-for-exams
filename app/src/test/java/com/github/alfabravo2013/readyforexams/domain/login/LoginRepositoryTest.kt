@@ -19,11 +19,11 @@ internal class LoginRepositoryTest {
     private val incorrectPassword = "987654321"
 
     @Nested
-    @DisplayName("login() tests")
+    @DisplayName("When login")
     inner class LoginTests {
 
         @Test
-        @DisplayName("Given registered email and correct password when login then Result.Success")
+        @DisplayName("Given registered email and correct password then Result.Success")
         fun loginWithExistingEmailAndCorrectPassword() {
             val actual = loginRepository.login(registeredEmail, correctPassword)
 
@@ -33,7 +33,7 @@ internal class LoginRepositoryTest {
         }
 
         @Test
-        @DisplayName("Given registered email and incorrect password when login then Result.Failure")
+        @DisplayName("Given registered email and incorrect password Then Result.Failure")
         fun loginWithExistingEmailAndIncorrectPassword() {
             val actual = loginRepository.login(registeredEmail, incorrectPassword)
 
@@ -43,7 +43,7 @@ internal class LoginRepositoryTest {
         }
 
         @Test
-        @DisplayName("Given unregistered email and correct password when login then Result.Failure")
+        @DisplayName("Given unregistered email and correct password Then Result.Failure")
         fun loginWithNonExistingEmailAndCorrectPassword() {
             val actual = loginRepository.login(unregisteredEmail, correctPassword)
 
@@ -53,7 +53,7 @@ internal class LoginRepositoryTest {
         }
 
         @Test
-        @DisplayName("Given unregistered email and incorrect password when login then Result.Failure")
+        @DisplayName("Given unregistered email and incorrect password Then Result.Failure")
         fun loginWithNonExistingEmailAndIncorrectPassword() {
             val actual = loginRepository.login(unregisteredEmail, incorrectPassword)
 
@@ -64,10 +64,10 @@ internal class LoginRepositoryTest {
     }
 
     @Nested
-    @DisplayName("signUp() tests")
+    @DisplayName("When signup")
     inner class SignUpTests {
         @Test
-        @DisplayName("Given registered email and any password When signup Then Result.Failure")
+        @DisplayName("Given registered email and any password Then Result.Failure")
         fun signUpWithRegisteredEmail() {
             val actual = localDataSource.signUp(registeredEmail, correctPassword)
 
@@ -77,7 +77,7 @@ internal class LoginRepositoryTest {
         }
 
         @Test
-        @DisplayName("Given unregistered email and any password When signup Then Result.Success")
+        @DisplayName("Given unregistered email and any password Then Result.Success")
         fun signUpWithUnregisteredEmail() {
             val actual = localDataSource.signUp(unregisteredEmail, correctPassword)
 
@@ -88,11 +88,11 @@ internal class LoginRepositoryTest {
     }
 
     @Nested
-    @DisplayName("resetPassword() tests")
+    @DisplayName("When resetPassword")
     inner class ResetPasswordTest {
 
         @Test
-        @DisplayName("Given registered email When resetPassword Then Result.Success")
+        @DisplayName("Given registered email Then Result.Success")
         fun resetPasswordWithRegisteredEmail() {
             val actual = localDataSource.resetPassword(registeredEmail)
 
@@ -102,7 +102,7 @@ internal class LoginRepositoryTest {
         }
 
         @Test
-        @DisplayName("Given unregistered email When resetPassword Then Result.Failure")
+        @DisplayName("Given unregistered email Then Result.Failure")
         fun resetPasswordWithUnregisteredEmail() {
             val actual = localDataSource.resetPassword(unregisteredEmail)
 
