@@ -32,10 +32,6 @@ internal class LoginViewModelTest {
         viewModel.onEvent.observeForever(observer)
 
         every { observer.onChanged(any()) } just Runs
-        every { loginUseCase.login(registeredEmail, correctPassword) } returns Result.Success
-        every {
-            loginUseCase.login(not(registeredEmail), any())
-        } returns Result.Failure("error")
     }
 
     @Test
@@ -54,6 +50,8 @@ internal class LoginViewModelTest {
 
     @Test
     fun onLoginButtonClickValidCredentials() = runBlocking {
+        every { loginUseCase.login(registeredEmail, correctPassword) } returns Result.Success
+
         viewModel.onLoginButtonClick(registeredEmail, correctPassword)
 
         verify(exactly = 1) { loginUseCase.login(registeredEmail, correctPassword) }
@@ -67,6 +65,10 @@ internal class LoginViewModelTest {
 
     @Test
     fun onLoginButtonClickInvalidCredentials() = runBlocking {
+        every {
+            loginUseCase.login(not(registeredEmail), any())
+        } returns Result.Failure("error")
+
         viewModel.onLoginButtonClick("email", correctPassword)
 
         verify(exactly = 1) { loginUseCase.login("email", correctPassword) }
