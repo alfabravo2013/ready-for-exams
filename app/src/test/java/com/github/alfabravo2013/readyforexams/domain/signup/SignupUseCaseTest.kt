@@ -64,9 +64,7 @@ internal class SignupUseCaseTest {
     @Test
     @DisplayName("Given registered email and and valid password and confirmed password Then Result.Failure")
     fun registeredEmail() {
-        every {
-            repository.signUp(and(any(), not(unregisteredEmail)), any())
-        } returns Result.Failure()
+        every { repository.signUp(not(unregisteredEmail), any()) } returns Result.Failure()
 
         val actual = signupUseCase.signup(registeredEmail, validPassword, validPassword)
 

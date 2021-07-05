@@ -9,15 +9,17 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class LoginUseCaseTest {
+    private val repository = mockk<LoginRepository>()
+    private val loginUseCase = LoginUseCase(repository)
+
+    private val registeredEmail = "test@test.com"
+    private val unregisteredEmail = "unknown@test.com"
+    private val correctPassword = "123456789"
 
     @Test
     @DisplayName("Given invalid email and any password Then Result.Failure")
     fun invalidEmail() {
-        val repository = mockk<LoginRepository>()
-        every { repository.login(any(), any()) } returns Result.Failure()
-        val loginUseCase = LoginUseCase(repository)
-
-        val actual = loginUseCase.login("invalid", "123456789")
+        val actual = loginUseCase.login("invalid", correctPassword)
 
         assertTrue(actual is Result.Failure)
 
@@ -27,11 +29,7 @@ internal class LoginUseCaseTest {
     @Test
     @DisplayName("Given valid email and invalid password Then Result.Failure")
     fun invalidPassword() {
-        val repository = mockk<LoginRepository>()
-        every { repository.login(any(), any()) } returns Result.Failure()
-        val loginUseCase = LoginUseCase(repository)
-
-        val actual = loginUseCase.login("email@email.com", "password")
+        val actual = loginUseCase.login(registeredEmail, "password")
 
         assertTrue(actual is Result.Failure)
 
@@ -41,31 +39,21 @@ internal class LoginUseCaseTest {
     @Test
     @DisplayName("Given unregistered email and valid password Then Result.Failure")
     fun unregisteredEmail() {
-        val unregisteredEmail = "email@email.com"
-
-        val repository = mockk<LoginRepository>()
         every { repository.login(unregisteredEmail, any()) } returns Result.Failure()
-        val loginUseCase = LoginUseCase(repository)
 
-        val actual = loginUseCase.login(unregisteredEmail, "123456789")
+        val actual = loginUseCase.login(unregisteredEmail, correctPassword)
 
         assertTrue(actual is Result.Failure)
 
-        verify(exactly = 1) { repository.login(unregisteredEmail, any()) }
+        verify(exactly = 1) { repository.login(unregisteredEmail, correctPassword) }
     }
 
     @Test
     @DisplayName("Given registered email and incorrect password Then Result.Failure")
     fun incorrectPassword() {
-        val registeredEmail = "test@test.com"
-        val correctPassword = "123456789"
         val incorrectPassword = correctPassword.reversed()
 
-        val repository = mockk<LoginRepository>()
-        every {
-            repository.login(registeredEmail, not(correctPassword))
-        } returns Result.Failure()
-        val loginUseCase = LoginUseCase(repository)
+        every { repository.login(registeredEmail, not(correctPassword)) } returns Result.Failure()
 
         val actual = loginUseCase.login(registeredEmail, incorrectPassword)
 
@@ -77,12 +65,7 @@ internal class LoginUseCaseTest {
     @Test
     @DisplayName("Given registered email and correct password Then Result.Success")
     fun correctCredentials() {
-        val registeredEmail = "test@test.com"
-        val correctPassword = "123456789"
-
-        val repository = mockk<LoginRepository>()
         every { repository.login(registeredEmail, correctPassword) } returns Result.Success
-        val loginUseCase = LoginUseCase(repository)
 
         val actual = loginUseCase.login(registeredEmail, correctPassword)
 

@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class PasswordResetUseCaseTest {
+    private val loginRepository = mockk<LoginRepository>()
+    private val passwordResetUseCase = PasswordResetUseCase(loginRepository)
 
     @Test
     @DisplayName("Given invalid email Then Result.Failure")
     fun invalidEmail() {
-        val loginRepository = mockk<LoginRepository>()
         every { loginRepository.resetPassword(any()) } returns Result.Failure()
-        val passwordResetUseCase = PasswordResetUseCase(loginRepository)
 
         val actual = passwordResetUseCase.resetPassword("")
 
@@ -30,9 +30,7 @@ internal class PasswordResetUseCaseTest {
     fun unregisteredEmail() {
         val unregisteredEmail = "unknown@test.com"
 
-        val loginRepository = mockk<LoginRepository>()
         every { loginRepository.resetPassword(unregisteredEmail) } returns Result.Failure()
-        val passwordResetUseCase = PasswordResetUseCase(loginRepository)
 
         val actual = passwordResetUseCase.resetPassword(unregisteredEmail)
 
@@ -46,9 +44,7 @@ internal class PasswordResetUseCaseTest {
     fun registeredEmail() {
         val registeredEmail = "test@test.com"
 
-        val loginRepository = mockk<LoginRepository>()
         every { loginRepository.resetPassword(registeredEmail) } returns Result.Success
-        val passwordResetUseCase = PasswordResetUseCase(loginRepository)
 
         val actual = passwordResetUseCase.resetPassword(registeredEmail)
 
