@@ -78,7 +78,7 @@ internal class LocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given non-existing email and correct password Then Result.Failure")
+        @DisplayName("Given unregistered email and correct password Then Result.Failure")
         fun loginWithUnregisteredEmailAndCorrectPassword() {
             val actual = localDataSource.login(unregisteredEmail, correctPassword)
 
@@ -86,7 +86,7 @@ internal class LocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given non-existing email and incorrect password Then Result.Failure")
+        @DisplayName("Given unregistered email and incorrect password Then Result.Failure")
         fun loginWithUnregisteredEmailAndIncorrectPassword() {
             val actual = localDataSource.login(unregisteredEmail, incorrectPassword)
 
