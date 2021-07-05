@@ -8,16 +8,23 @@ import io.mockk.verify
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 internal class PasswordResetUseCaseTest {
     private val loginRepository = mockk<LoginRepository>()
     private val passwordResetUseCase = PasswordResetUseCase(loginRepository)
 
+    private val registeredEmail = "test@test.com"
+
+    @BeforeEach
+    fun setup() {
+        every { loginRepository.resetPassword(not(registeredEmail)) } returns Result.Failure()
+        every { loginRepository.resetPassword(registeredEmail) } returns Result.Success
+    }
+
     @Test
     @DisplayName("Given invalid email Then Result.Failure")
     fun invalidEmail() {
-        every { loginRepository.resetPassword(any()) } returns Result.Failure()
-
         val actual = passwordResetUseCase.resetPassword("")
 
         assertTrue(actual is Result.Failure)
@@ -30,8 +37,6 @@ internal class PasswordResetUseCaseTest {
     fun unregisteredEmail() {
         val unregisteredEmail = "unknown@test.com"
 
-        every { loginRepository.resetPassword(unregisteredEmail) } returns Result.Failure()
-
         val actual = passwordResetUseCase.resetPassword(unregisteredEmail)
 
         assertTrue(actual is Result.Failure)
@@ -42,10 +47,6 @@ internal class PasswordResetUseCaseTest {
     @Test
     @DisplayName("Given registered email Then Result.Success")
     fun registeredEmail() {
-        val registeredEmail = "test@test.com"
-
-        every { loginRepository.resetPassword(registeredEmail) } returns Result.Success
-
         val actual = passwordResetUseCase.resetPassword(registeredEmail)
 
         assertTrue(actual is Result.Success)

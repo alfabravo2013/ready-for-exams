@@ -7,6 +7,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 internal class LoginUseCaseTest {
     private val repository = mockk<LoginRepository>()
@@ -15,6 +16,13 @@ internal class LoginUseCaseTest {
     private val registeredEmail = "test@test.com"
     private val unregisteredEmail = "unknown@test.com"
     private val correctPassword = "123456789"
+
+    @BeforeEach
+    fun setup() {
+        every { repository.login(registeredEmail, correctPassword) } returns Result.Success
+        every { repository.login(any(), not(correctPassword)) } returns Result.Failure()
+        every { repository.login(not(registeredEmail), any()) } returns Result.Failure()
+    }
 
     @Test
     @DisplayName("Given invalid email and any password Then Result.Failure")
@@ -39,8 +47,6 @@ internal class LoginUseCaseTest {
     @Test
     @DisplayName("Given unregistered email and valid password Then Result.Failure")
     fun unregisteredEmail() {
-        every { repository.login(unregisteredEmail, any()) } returns Result.Failure()
-
         val actual = loginUseCase.login(unregisteredEmail, correctPassword)
 
         assertTrue(actual is Result.Failure)
@@ -53,8 +59,6 @@ internal class LoginUseCaseTest {
     fun incorrectPassword() {
         val incorrectPassword = correctPassword.reversed()
 
-        every { repository.login(registeredEmail, not(correctPassword)) } returns Result.Failure()
-
         val actual = loginUseCase.login(registeredEmail, incorrectPassword)
 
         assertTrue(actual is Result.Failure)
@@ -65,8 +69,6 @@ internal class LoginUseCaseTest {
     @Test
     @DisplayName("Given registered email and correct password Then Result.Success")
     fun correctCredentials() {
-        every { repository.login(registeredEmail, correctPassword) } returns Result.Success
-
         val actual = loginUseCase.login(registeredEmail, correctPassword)
 
         assertTrue(actual is Result.Success)
