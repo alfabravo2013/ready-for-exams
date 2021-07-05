@@ -33,12 +33,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
@@ -71,6 +65,10 @@ dependencies {
 
     // mockk
     testImplementation "io.mockk:mockk:1.12.0"
+
+    // coroutines tests
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
     // testing
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
