@@ -10,15 +10,18 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 internal class SignupUseCaseTest {
+    private val repository = mockk<LoginRepository>()
+    private val signupUseCase = SignupUseCase(repository)
+
+    private val registeredEmail = "test@test.com"
+    private val unregisteredEmail = "email@email.com"
+    private val validPassword = "123456789"
+    private val invalidPassword = "12345678"
 
     @Test
     @DisplayName("Given invalid email and any password and confirmed password Then Result.Failure")
     fun invalidEmail() {
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(any(), any()) } returns Result.Failure()
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup("email", "123456789", "123456789")
+        val actual = signupUseCase.signup("email", validPassword, validPassword)
 
         assertTrue(actual is Result.Failure)
 
@@ -28,11 +31,7 @@ internal class SignupUseCaseTest {
     @Test
     @DisplayName("Given valid email and invalid password and any confirmed password Then Result.Failure")
     fun invalidPassword() {
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(any(), any()) } returns Result.Failure()
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup("test@test.com", "12345678", "123456789")
+        val actual = signupUseCase.signup(unregisteredEmail, invalidPassword, invalidPassword)
 
         assertTrue(actual is Result.Failure)
 
@@ -42,11 +41,8 @@ internal class SignupUseCaseTest {
     @Test
     @DisplayName("Given valid email and valid password and password != confirmed password Then Result.Failure")
     fun nonMatchingPasswords() {
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(any(), any()) } returns Result.Failure()
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup("test@test.com", "123456789", "123456780")
+        val confirmedPassword = validPassword + "0"
+        val actual = signupUseCase.signup(unregisteredEmail, validPassword, confirmedPassword)
 
         assertTrue(actual is Result.Failure)
 
@@ -54,54 +50,28 @@ internal class SignupUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given unregistered email and valid password and confirmed password Then Result.Failure")
+    @DisplayName("Given unregistered email and valid password and confirmed password Then Result.Success")
     fun unregisteredEmail() {
-        val unregisteredEmail = "email@email.com"
-        val password = "123456789"
+        every { repository.signUp(unregisteredEmail, validPassword) } returns Result.Success
 
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(unregisteredEmail, any()) } returns Result.Failure()
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup(unregisteredEmail, password, password)
-
-        assertTrue(actual is Result.Failure)
-
-        verify(exactly = 1) { repository.signUp(unregisteredEmail, password) }
-    }
-
-    @Test
-    @DisplayName("Given registered email and incorrect password Then Result.Failure")
-    fun incorrectPassword() {
-        val registeredEmail = "test@test.com"
-        val correctPassword = "123456789"
-        val incorrectPassword = correctPassword.reversed()
-
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(registeredEmail, not(correctPassword)) } returns Result.Failure()
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup(registeredEmail, incorrectPassword, incorrectPassword)
-
-        assertTrue(actual is Result.Failure)
-
-        verify(exactly = 1) { repository.signUp(registeredEmail, incorrectPassword) }
-    }
-
-    @Test
-    @DisplayName("Given registered email and correct password and confirmed password Then Result.Success")
-    fun correctCredentials() {
-        val registeredEmail = "test@test.com"
-        val correctPassword = "123456789"
-
-        val repository = mockk<LoginRepository>()
-        every { repository.signUp(registeredEmail, correctPassword) } returns Result.Success
-        val signupUseCase = SignupUseCase(repository)
-
-        val actual = signupUseCase.signup(registeredEmail, correctPassword, correctPassword)
+        val actual = signupUseCase.signup(unregisteredEmail, validPassword, validPassword)
 
         assertTrue(actual is Result.Success)
 
-        verify(exactly = 1) { repository.signUp(registeredEmail, correctPassword) }
+        verify(exactly = 1) { repository.signUp(unregisteredEmail, validPassword) }
+    }
+
+    @Test
+    @DisplayName("Given registered email and and valid password and confirmed password Then Result.Failure")
+    fun registeredEmail() {
+        every {
+            repository.signUp(and(any(), not(unregisteredEmail)), any())
+        } returns Result.Failure()
+
+        val actual = signupUseCase.signup(registeredEmail, validPassword, validPassword)
+
+        assertTrue(actual is Result.Failure)
+
+        verify(exactly = 1) { repository.signUp(registeredEmail, validPassword) }
     }
 }
