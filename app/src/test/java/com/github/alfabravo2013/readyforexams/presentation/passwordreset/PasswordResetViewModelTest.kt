@@ -12,7 +12,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -36,7 +35,7 @@ internal class PasswordResetViewModelTest {
 
     @Test
     @DisplayName("Given UseCase returns Failure, When onPasswordResetClick Then display error")
-    fun onPasswordResetClickUnregisteredEmail() = runBlocking {
+    fun onPasswordResetClickUnregisteredEmail() {
         every {
             passwordResetUseCase.resetPassword(not(registeredEmail))
         } returns Result.Failure("error")
@@ -54,7 +53,7 @@ internal class PasswordResetViewModelTest {
 
     @Test
     @DisplayName("Given UseCase returns Success, When onPasswordResetClick Then show password")
-    fun onPasswordResetClickRegisteredEmail() = runBlocking {
+    fun onPasswordResetClickRegisteredEmail() {
         every { passwordResetUseCase.resetPassword(registeredEmail) } returns Result.Success
 
         viewModel.onPasswordResetClicked(registeredEmail)

@@ -9,7 +9,8 @@ import com.github.alfabravo2013.readyforexams.util.Result
 import kotlinx.coroutines.launch
 
 class PasswordResetViewModel(
-    private val passwordResetUseCase: PasswordResetUseCase) : ViewModel() {
+    private val passwordResetUseCase: PasswordResetUseCase
+) : ViewModel() {
 
     private val _onEvent = MutableLiveData<OnEvent>()
     val onEvent: LiveData<OnEvent> get() = _onEvent
@@ -33,7 +34,7 @@ class PasswordResetViewModel(
         object ShowProgress : OnEvent()
         object HideProgress : OnEvent()
         object NavigateToLoginScreen : OnEvent()
-        object ShowDefaultPassword: OnEvent()
-        data class Error(val message : String) : OnEvent()
+        object ShowDefaultPassword : OnEvent()
+        data class Error(val message: String) : OnEvent()
     }
 }
