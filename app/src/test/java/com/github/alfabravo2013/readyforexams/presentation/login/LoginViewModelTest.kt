@@ -14,6 +14,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -35,6 +36,7 @@ internal class LoginViewModelTest {
     }
 
     @Test
+    @DisplayName("When onSignupLinkClick Then navigate to SignupScreen")
     fun onSignupLinkClick() = runBlocking {
         viewModel.onSignupLinkClick()
 
@@ -42,6 +44,7 @@ internal class LoginViewModelTest {
     }
 
     @Test
+    @DisplayName("When onForgotPasswordClick Then navigate to PasswordResetScreen")
     fun onForgotPasswordLinkClick() = runBlocking {
         viewModel.onForgotPasswordLinkClick()
 
@@ -49,6 +52,7 @@ internal class LoginViewModelTest {
     }
 
     @Test
+    @DisplayName("Given UseCase returns Success, When onLoginButtonClick Then navigate to HomeScreen")
     fun onLoginButtonClickValidCredentials() = runBlocking {
         every { loginUseCase.login(registeredEmail, correctPassword) } returns Result.Success
 
@@ -64,6 +68,7 @@ internal class LoginViewModelTest {
     }
 
     @Test
+    @DisplayName("Given UseCase returns Failure, When onLoginButtonClick Then display error")
     fun onLoginButtonClickInvalidCredentials() = runBlocking {
         every {
             loginUseCase.login(not(registeredEmail), any())
