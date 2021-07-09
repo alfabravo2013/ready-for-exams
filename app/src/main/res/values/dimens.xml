@@ -19,4 +19,5 @@
     <dimen name="text_xlarge">24sp</dimen>
 
     <dimen name="signup_success_image_size">300dp</dimen>
+    <dimen name="text_base_plus">18sp</dimen>
 </resources>
