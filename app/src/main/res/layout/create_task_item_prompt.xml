@@ -7,7 +7,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/create_task_item_text_input_layout"
-        style="@style/TextInputLayoutCreate"
+        style="@style/TextInputLayoutLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_large"
