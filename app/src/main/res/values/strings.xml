@@ -48,4 +48,5 @@
     <string name="create_create_button_text">Create now</string>
     <string name="create_item_name_hint">Enter an item</string>
     <string name="create_add_item_button_description">Add item button</string>
+    <string name="create_title_text">Create</string>
 </resources>
