@@ -11,6 +11,18 @@ class ChecklistLocalDataSource {
         Checklist(entry.key, entry.value)
     }
 
+    fun isNameTaken(name: String): Boolean = checklists.containsKey(name)
+
+    fun createUniqueName(): String {
+        val newNumber = checklists.keys.asSequence()
+            .filter { name -> name.matches(Regex("New task #[\\d+]")) }
+            .map { name -> name.substring(name.lastIndexOf('#') + 1) }
+            .map { number -> number.toInt() }
+            .maxOrNull()?.plus(1) ?: 1
+
+        return "New task #$newNumber"
+    }
+
     fun addChecklist(checklist: Checklist) : Result {
         if (checklists.containsKey(checklist.name)) {
             return Result.Failure("Checklist ${checklist.name} already exists")

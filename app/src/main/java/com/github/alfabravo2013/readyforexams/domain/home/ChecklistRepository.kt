@@ -14,4 +14,8 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
 
     fun deleteChecklistByName(checklistName: String) =
         checklistLocalDataSource.deleteChecklistByName(checklistName)
+
+    fun isNameTaken(name: String): Boolean = checklistLocalDataSource.isNameTaken(name)
+
+    fun createUniqueName(): String = checklistLocalDataSource.createUniqueName()
 }
