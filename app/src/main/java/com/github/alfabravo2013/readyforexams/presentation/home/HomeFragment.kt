@@ -19,6 +19,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             is OnEvent.NavigateToCreateScreen -> navigateToCreateScreen()
             is OnEvent.EmptyList -> showEmptyListMessage()
             is OnEvent.NotEmptyList -> hideEmptyListMessage()
+            is OnEvent.ShowProgress -> binding.homeProgressBar.visibility = View.VISIBLE
+            is OnEvent.HideProgress -> binding.homeProgressBar.visibility = View.GONE
         }
     }
 
@@ -27,16 +29,21 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         setToolbarTitle(requireContext().getString(R.string.home_title_text))
 
         val adapter = ChecklistAdapter()
+
         with(binding) {
             homeChecklistRecyclerView.adapter = adapter
-        }
-        binding.homeAddChecklistButton.setOnClickListener {
-
+            homeAddChecklistButton.setOnClickListener {
+                viewModel.onAddChecklistButtonClick()
+            }
         }
 
         viewModel.checklists.observe(viewLifecycleOwner) { checklists ->
             adapter.setItems(checklists)
         }
+
+        viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+
+        viewModel.fetchChecklists()
     }
 
     private fun navigateToCreateScreen() {
