@@ -15,10 +15,11 @@ class ChecklistLocalDataSource {
 
     fun createUniqueName(): String {
         val newNumber = checklists.keys.asSequence()
-            .filter { name -> name.matches(Regex("New task #[\\d+]")) }
+            .filter { name -> name.matches(Regex("New task #\\d+")) }
             .map { name -> name.substring(name.lastIndexOf('#') + 1) }
             .map { number -> number.toInt() }
-            .maxOrNull()?.plus(1) ?: 1
+            .maxOrNull()
+            ?.plus(1) ?: 1
 
         return "New task #$newNumber"
     }
