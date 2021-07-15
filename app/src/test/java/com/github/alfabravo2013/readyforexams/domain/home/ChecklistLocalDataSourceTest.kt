@@ -18,7 +18,7 @@ internal class ChecklistLocalDataSourceTest {
     inner class GetChecklistsTest {
 
         @Test
-        @DisplayName("Given no checklists have been added yet, Then returns empty list")
+        @DisplayName("Given no checklists have been added yet, Then return empty list")
         fun getChecklistsWhereNoHasBeenAddedYet() {
             val checklists = checklistLocalDataSource.getChecklists()
 
@@ -26,7 +26,7 @@ internal class ChecklistLocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given a checklist has been added, Then returns a list containing the single checklist")
+        @DisplayName("Given a checklist has been added, Then return a list containing the single checklist")
         fun getChecklistsWhereOneChecklistHasBeenAdded() {
             checklistLocalDataSource.addChecklist(checklist)
 
@@ -37,7 +37,7 @@ internal class ChecklistLocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given a checklist has been added, Then the returned list should contain the single added checklist")
+        @DisplayName("Given a checklist has been added, Then the returned list contains only the added checklist")
         fun getChecklistsShouldContainTheAddedChecklist() {
             checklistLocalDataSource.addChecklist(checklist)
 
@@ -52,7 +52,7 @@ internal class ChecklistLocalDataSourceTest {
     inner class AddChecklistTest {
 
         @Test
-        @DisplayName("Given a unique checklist name Then returns Result.Success")
+        @DisplayName("Given a unique checklist name Then return Result.Success")
         fun addChecklistWithUniqueName() {
             val result = checklistLocalDataSource.addChecklist(checklist)
 
@@ -60,13 +60,23 @@ internal class ChecklistLocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given a non-unique checklist name Then returns Result.Failure")
+        @DisplayName("Given a non-unique checklist name Then return Result.Failure")
         fun addChecklistWithNonUniqueName() {
             checklistLocalDataSource.addChecklist(checklist)
 
             val result = checklistLocalDataSource.addChecklist(checklist)
 
             assertTrue(result is Result.Failure)
+        }
+
+        @Test
+        @DisplayName("Given a unique checklist name Then the ChecklistLocalDataSource contains the added checklist")
+        fun addChecklistAddsTheChecklist() {
+            checklistLocalDataSource.addChecklist(checklist)
+
+            val result = checklistLocalDataSource.getChecklists().first()
+
+            assertEquals(checklist, result)
         }
     }
 
@@ -75,7 +85,7 @@ internal class ChecklistLocalDataSourceTest {
     inner class UpdateChecklistTest {
 
         @Test
-        @DisplayName("Given an existing checklist name, Then returns Result.Success")
+        @DisplayName("Given an existing checklist name, Then return Result.Success")
         fun updateExistingChecklist() {
             checklistLocalDataSource.addChecklist(checklist)
 
@@ -98,7 +108,7 @@ internal class ChecklistLocalDataSourceTest {
         }
 
         @Test
-        @DisplayName("Given a non-existing checklist, Then returns Result.Failure")
+        @DisplayName("Given a non-existing checklist, Then return Result.Failure")
         fun updateNonExistingChecklist() {
             val nonExistingChecklist = Checklist("another", listOf())
 
