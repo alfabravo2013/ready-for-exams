@@ -14,14 +14,15 @@ fun Checklist.toChecklistRepresentation(): ChecklistRepresentation {
         completed = this.completed,
         total = this.total,
         taskCountResource = R.string.home_checklist_tasks_count_text,
-        statusTextResource = when (this.completed) {
-            this.total -> R.string.home_checklist_done_text
-            0 -> R.string.home_checklist_not_started_text
+        statusTextResource = when {
+            this.total == 0 -> R.string.home_checklist_empty_text
+            this.completed == this.total -> R.string.home_checklist_done_text
+            this.completed == 0 -> R.string.home_checklist_not_started_text
             else -> R.string.home_checklist_in_progress_text
         },
         statusColorResource = when (this.completed) {
-            this.total -> R.color.green
             0 -> R.color.red_brick
+            this.total -> R.color.green
             else -> R.color.font_gray
         }
     )

@@ -24,6 +24,7 @@ class ChecklistLocalDataSource {
             Task("2", isCompleted = true),
             Task("3", isCompleted = true)
         )
+        checklists["Empty Checklist"] = listOf()
     }
 
     fun getChecklists(): List<Checklist> = checklists.entries.map { entry ->
