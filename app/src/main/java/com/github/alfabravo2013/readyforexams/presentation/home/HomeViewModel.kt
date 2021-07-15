@@ -3,7 +3,7 @@ package com.github.alfabravo2013.readyforexams.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.domain.home.LoadChecklistUseCase
-import com.github.alfabravo2013.readyforexams.domain.models.Checklist
+import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
@@ -36,6 +36,6 @@ class HomeViewModel(
         object HideProgress : OnEvent()
         object EmptyList : OnEvent()
         object NavigateToCreateScreen : OnEvent()
-        data class LoadChecklists(val checklists: List<Checklist>) : OnEvent()
+        data class LoadChecklists(val checklists: List<ChecklistRepresentation>) : OnEvent()
     }
 }

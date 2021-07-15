@@ -7,6 +7,25 @@ import com.github.alfabravo2013.readyforexams.util.Result
 class ChecklistLocalDataSource {
     private val checklists = mutableMapOf<String, List<Task>>()
 
+    // temporary checklists until Create Screen logic is added
+    init {
+        checklists["Mathematics Exam"] = listOf(
+            Task("1"),
+            Task("2"),
+            Task("3")
+        )
+        checklists["Physics Exam"] = listOf(
+            Task("1"),
+            Task("2"),
+            Task("3", isCompleted = true)
+        )
+        checklists["History Exam"] = listOf(
+            Task("1", isCompleted = true),
+            Task("2", isCompleted = true),
+            Task("3", isCompleted = true)
+        )
+    }
+
     fun getChecklists(): List<Checklist> = checklists.entries.map { entry ->
         Checklist(entry.key, entry.value)
     }

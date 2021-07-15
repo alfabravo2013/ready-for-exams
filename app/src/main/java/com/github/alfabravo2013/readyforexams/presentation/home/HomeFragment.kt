@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentHomeBinding
-import com.github.alfabravo2013.readyforexams.domain.models.Checklist
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.home.HomeViewModel.OnEvent
+import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -50,7 +50,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         findNavController().navigate(R.id.createFragment)
     }
 
-    private fun showChecklists(checklists: List<Checklist>) {
+    private fun showChecklists(checklists: List<ChecklistRepresentation>) {
         binding.itemEmpty.visibility = View.INVISIBLE
         adapter.setItems(checklists)
     }
