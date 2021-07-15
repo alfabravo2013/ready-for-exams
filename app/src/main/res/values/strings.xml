@@ -41,7 +41,7 @@
     <string name="signup_password_confirm_edit_text_hint">Confirm password</string>
 
 <!--    Home screen -->
-    <string name="home_title_text">Home Screen</string>
+    <string name="home_title_text">Home</string>
     <string name="home_fab_description">Add a new checklist button</string>
     <string name="home_sad_smile_icon_description">Sad smile</string>
     <string name="home_empty_task_list_message_text">There are no available tasks for your exams</string>

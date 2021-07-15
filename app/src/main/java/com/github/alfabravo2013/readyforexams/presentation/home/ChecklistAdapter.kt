@@ -68,10 +68,8 @@ class ChecklistAdapter : RecyclerView.Adapter<ChecklistAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position != RecyclerView.NO_POSITION) {
-            val item = checklists[position]
-            holder.bind(item)
-        }
+        val item = checklists[position]
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = checklists.size

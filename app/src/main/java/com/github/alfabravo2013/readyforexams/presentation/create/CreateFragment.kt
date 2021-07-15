@@ -14,19 +14,5 @@ class CreateFragment : BaseFragment(R.layout.fragment_create) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCreateBinding.bind(view)
         setToolbarTitle(requireContext().getString(R.string.create_title_text))
-
-        val adapter = TaskAdapter()
-
-        with(binding) {
-            createItemsRecyclerView.adapter = adapter
-
-            createItemAddButton.setOnClickListener {
-                var item = createTaskItemEditText.text.toString()
-                if (item.isBlank()) item = "New task"
-                adapter.addItem(item)
-                createTaskItemEditText.text = null
-                createTaskItemEditText.clearFocus()
-            }
-        }
     }
 }
