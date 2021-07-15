@@ -5,6 +5,7 @@ import com.github.alfabravo2013.readyforexams.CoroutinesTestExtension
 import com.github.alfabravo2013.readyforexams.InstantExecutorExtension
 import com.github.alfabravo2013.readyforexams.domain.home.LoadChecklistUseCase
 import com.github.alfabravo2013.readyforexams.domain.models.Checklist
+import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresentation
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -57,14 +58,15 @@ internal class HomeViewModelTest {
     @DisplayName("Given some checklists have been added, When fetchChecklists(), Then show a list of these checklists")
     fun fetchChecklistsNonEmptyList() {
         val checklist = Checklist("name", listOf())
+        val checklistRepresentation = checklist.toChecklistRepresentation()
 
-        every { loadChecklistUseCase.getChecklists() } answers { listOf(checklist) }
+        every { loadChecklistUseCase.getChecklists() } answers { listOf(checklistRepresentation) }
 
         viewModel.fetchChecklists()
 
         verifySequence {
             observer.onChanged(HomeViewModel.OnEvent.ShowProgress)
-            observer.onChanged(HomeViewModel.OnEvent.LoadChecklists(listOf(checklist)))
+            observer.onChanged(HomeViewModel.OnEvent.LoadChecklists(listOf(checklistRepresentation)))
             observer.onChanged(HomeViewModel.OnEvent.HideProgress)
         }
     }

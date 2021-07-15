@@ -1,6 +1,7 @@
 package com.github.alfabravo2013.readyforexams.domain.home
 
 import com.github.alfabravo2013.readyforexams.domain.models.Checklist
+import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import io.mockk.Runs
 import io.mockk.every
@@ -18,6 +19,7 @@ internal class ChecklistRepositoryTest {
     private val checklistRepository = ChecklistRepository(checklistLocalDataSource)
 
     private val checklist = Checklist("name", listOf())
+    private val checklistRepresentation = checklist.toChecklistRepresentation()
 
     @Nested
     @DisplayName("When getChecklists")
@@ -48,13 +50,13 @@ internal class ChecklistRepositoryTest {
         }
 
         @Test
-        @DisplayName("When a checklist have been added, Then return a list contains this checklist")
+        @DisplayName("When a checklist have been added, Then return a list comprising the corresponding ChecklistRepresentation")
         fun getChecklistsContainsAddedChecklists() {
             every { checklistLocalDataSource.getChecklists() } answers { listOf(checklist) }
 
             val retrievedChecklists = checklistRepository.getChecklists()
 
-            assertEquals(listOf(checklist), retrievedChecklists)
+            assertEquals(listOf(checklistRepresentation), retrievedChecklists)
 
             verify(exactly = 1) { checklistLocalDataSource.getChecklists() }
         }
