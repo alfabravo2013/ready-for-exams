@@ -8,17 +8,20 @@ import com.github.alfabravo2013.readyforexams.R
 import com.github.alfabravo2013.readyforexams.databinding.FragmentHomeBinding
 import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.home.HomeViewModel.OnEvent
+import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
 
+    private val adapter: ChecklistAdapter by lazy { ChecklistAdapter() }
+
     private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
             is OnEvent.NavigateToCreateScreen -> navigateToCreateScreen()
-            is OnEvent.EmptyList -> showEmptyListMessage()
-            is OnEvent.NotEmptyList -> hideEmptyListMessage()
+            is OnEvent.EmptyList -> binding.itemEmpty.visibility = View.VISIBLE
+            is OnEvent.LoadChecklists -> showChecklists(event.checklists)
             is OnEvent.ShowProgress -> binding.homeProgressBar.visibility = View.VISIBLE
             is OnEvent.HideProgress -> binding.homeProgressBar.visibility = View.GONE
         }
@@ -28,8 +31,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         binding = FragmentHomeBinding.bind(view)
         setToolbarTitle(requireContext().getString(R.string.home_title_text))
 
-        val adapter = ChecklistAdapter()
-
         with(binding) {
             homeChecklistRecyclerView.adapter = adapter
             homeAddChecklistButton.setOnClickListener {
@@ -37,12 +38,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }
         }
 
-        viewModel.checklists.observe(viewLifecycleOwner) { checklists ->
-            adapter.setItems(checklists)
-        }
-
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchChecklists()
     }
 
@@ -50,17 +50,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         findNavController().navigate(R.id.createFragment)
     }
 
-    private fun showEmptyListMessage() {
-        with(binding) {
-            homeSadSmileIcon.visibility = View.VISIBLE
-            homeEmptyTaskListLabel.visibility = View.VISIBLE
-        }
-    }
-
-    private fun hideEmptyListMessage() {
-        with(binding) {
-            homeSadSmileIcon.visibility = View.INVISIBLE
-            homeEmptyTaskListLabel.visibility = View.INVISIBLE
-        }
+    private fun showChecklists(checklists: List<ChecklistRepresentation>) {
+        binding.itemEmpty.visibility = View.INVISIBLE
+        adapter.setItems(checklists)
     }
 }

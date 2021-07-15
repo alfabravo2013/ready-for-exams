@@ -41,7 +41,7 @@
     <string name="signup_password_confirm_edit_text_hint">Confirm password</string>
 
 <!--    Home screen -->
-    <string name="home_title_text">Home Screen</string>
+    <string name="home_title_text">Home</string>
     <string name="home_fab_description">Add a new checklist button</string>
     <string name="home_sad_smile_icon_description">Sad smile</string>
     <string name="home_empty_task_list_message_text">There are no available tasks for your exams</string>
@@ -49,6 +49,7 @@
     <string name="home_checklist_not_started_text">not started</string>
     <string name="home_checklist_in_progress_text">in progress</string>
     <string name="home_checklist_done_text">done</string>
+    <string name="home_checklist_empty_text">empty</string>
     <string name="home_checklist_tasks_count_text">%1$d / %2$d</string>
 
 <!--    Create screen -->
