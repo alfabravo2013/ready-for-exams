@@ -10,5 +10,9 @@
     <color name="white">#FFFFFF</color>
     <color name="blue">#24A3FF</color>
     <color name="light_gray">#ECF1F4</color>
+    <color name="light_bluish_gray">#E7F6FD</color>
     <color name="font_black">#161012</color>
+    <color name="font_gray">#A19F9F</color>
+    <color name="red_brick">#E5571C</color>
+    <color name="green">#069339</color>
 </resources>

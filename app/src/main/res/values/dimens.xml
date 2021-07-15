@@ -18,5 +18,7 @@
     <dimen name="text_large">20sp</dimen>
     <dimen name="text_xlarge">24sp</dimen>
 
+    <dimen name="card_view_corner_radius">10dp</dimen>
+
     <dimen name="signup_success_image_size">300dp</dimen>
 </resources>

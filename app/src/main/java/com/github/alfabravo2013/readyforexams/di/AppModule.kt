@@ -10,5 +10,4 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { LandingViewModel() }
-    viewModel { HomeViewModel() }
 }

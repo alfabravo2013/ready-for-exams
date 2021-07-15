@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/checklist_name_text_input_layout"
+        style="@style/TextInputLayoutLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/checklist_name_edit_text"
+            style="@style/EditTextCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/create_checklist_name_hint"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_xlarge"
+        app:layout_constraintBottom_toTopOf="@id/create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checklist_name_text_input_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tasks_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_create_task" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/task_text_input_layout"
+                style="@style/TextInputLayoutLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_base"
+                android:layout_marginEnd="@dimen/margin_large"
+                app:layout_constraintEnd_toStartOf="@id/add_image_view_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tasks_recycler_view">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/task_edit_text"
+                    style="@style/EditTextCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_item_name_hint"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/add_image_view_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_med"
+                android:contentDescription="@string/create_add_item_button_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="@id/task_text_input_layout"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/task_text_input_layout"
+                app:tint="@color/blue" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/create_button"
+        style="@style/ButtonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginBottom="@dimen/margin_xlarge"
+        android:text="@string/create_create_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

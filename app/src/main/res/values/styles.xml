@@ -21,4 +21,25 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">@dimen/text_large</item>
     </style>
+    <style name="EditTextCreate" parent="EditTextLogin">
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+    <style name="EmptyListText">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/font_gray</item>
+    </style>
+    <style name="ChecklistNameText">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+    <style name="ChecklistTaskCounterText">
+        <item name="android:fontFamily">@font/open_sans_light</item>
+        <item name="android:textSize">@dimen/text_base</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
 </resources>
