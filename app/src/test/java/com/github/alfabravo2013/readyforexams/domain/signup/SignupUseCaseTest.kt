@@ -24,7 +24,6 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup("email", validPassword, validPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { repository.signUp(any(), any()) }
     }
 
@@ -34,7 +33,6 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(unregisteredEmail, invalidPassword, invalidPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { repository.signUp(any(), any()) }
     }
 
@@ -46,7 +44,6 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(unregisteredEmail, validPassword, confirmedPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { repository.signUp(any(), any()) }
     }
 
@@ -58,7 +55,6 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(unregisteredEmail, validPassword, validPassword)
 
         assertTrue(actual is Result.Success)
-
         verify(exactly = 1) { repository.signUp(unregisteredEmail, validPassword) }
     }
 
@@ -70,7 +66,6 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(registeredEmail, validPassword, validPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 1) { repository.signUp(registeredEmail, validPassword) }
     }
 }

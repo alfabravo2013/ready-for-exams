@@ -27,7 +27,6 @@ internal class LoginRepositoryTest {
             val actual = loginRepository.login(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
-
             verify { localDataSource.login(registeredEmail, correctPassword) }
         }
 
@@ -37,7 +36,6 @@ internal class LoginRepositoryTest {
             val actual = loginRepository.login(registeredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
-
             verify { localDataSource.login(registeredEmail, incorrectPassword) }
         }
 
@@ -47,7 +45,6 @@ internal class LoginRepositoryTest {
             val actual = loginRepository.login(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
-
             verify { localDataSource.login(unregisteredEmail, correctPassword) }
         }
 
@@ -57,7 +54,6 @@ internal class LoginRepositoryTest {
             val actual = loginRepository.login(unregisteredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
-
             verify { localDataSource.login(unregisteredEmail, incorrectPassword) }
         }
     }
@@ -71,7 +67,6 @@ internal class LoginRepositoryTest {
             val actual = localDataSource.signUp(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
-
             verify { localDataSource.signUp(registeredEmail, correctPassword) }
         }
 
@@ -81,7 +76,6 @@ internal class LoginRepositoryTest {
             val actual = localDataSource.signUp(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
-
             verify { localDataSource.signUp(unregisteredEmail, correctPassword) }
         }
     }
@@ -96,7 +90,6 @@ internal class LoginRepositoryTest {
             val actual = localDataSource.resetPassword(registeredEmail)
 
             assertTrue(actual is Result.Success)
-
             verify { localDataSource.resetPassword(registeredEmail) }
         }
 
@@ -106,7 +99,6 @@ internal class LoginRepositoryTest {
             val actual = localDataSource.resetPassword(unregisteredEmail)
 
             assertTrue(actual is Result.Failure)
-
             verify { localDataSource.resetPassword(unregisteredEmail) }
         }
     }
