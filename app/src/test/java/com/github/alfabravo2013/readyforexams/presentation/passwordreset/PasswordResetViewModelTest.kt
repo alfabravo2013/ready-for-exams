@@ -43,7 +43,6 @@ internal class PasswordResetViewModelTest {
         viewModel.onPasswordResetClicked("email")
 
         verify(exactly = 1) { passwordResetUseCase.resetPassword("email") }
-
         verifySequence {
             observer.onChanged(PasswordResetViewModel.OnEvent.ShowProgress)
             observer.onChanged(PasswordResetViewModel.OnEvent.Error("error"))
@@ -59,7 +58,6 @@ internal class PasswordResetViewModelTest {
         viewModel.onPasswordResetClicked(registeredEmail)
 
         verify(exactly = 1) { passwordResetUseCase.resetPassword(registeredEmail) }
-
         verifySequence {
             observer.onChanged(PasswordResetViewModel.OnEvent.ShowProgress)
             observer.onChanged(PasswordResetViewModel.OnEvent.ShowDefaultPassword)

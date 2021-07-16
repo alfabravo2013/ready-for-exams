@@ -33,7 +33,6 @@ internal class ChecklistLocalDataSourceTest {
             val checklists = checklistLocalDataSource.getChecklists()
 
             assertEquals(1, checklists.size)
-            assertEquals(checklist, checklists.first())
         }
 
         @Test

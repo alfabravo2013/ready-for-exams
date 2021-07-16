@@ -33,7 +33,6 @@ internal class ChecklistRepositoryTest {
             val checklists = checklistRepository.getChecklists()
 
             assertEquals(0, checklists.size)
-
             verify(exactly = 1) { checklistLocalDataSource.getChecklists() }
         }
 
@@ -45,7 +44,6 @@ internal class ChecklistRepositoryTest {
             val checklists = checklistRepository.getChecklists()
 
             assertEquals(1, checklists.size)
-
             verify(exactly = 1) { checklistLocalDataSource.getChecklists() }
         }
 
@@ -57,7 +55,6 @@ internal class ChecklistRepositoryTest {
             val retrievedChecklists = checklistRepository.getChecklists()
 
             assertEquals(listOf(checklistRepresentation), retrievedChecklists)
-
             verify(exactly = 1) { checklistLocalDataSource.getChecklists() }
         }
     }
@@ -74,7 +71,6 @@ internal class ChecklistRepositoryTest {
             val result = checklistRepository.addChecklist(checklist)
 
             assertTrue(result is Result.Success)
-
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }
         }
 
@@ -86,7 +82,6 @@ internal class ChecklistRepositoryTest {
             val result = checklistRepository.addChecklist(checklist)
 
             assertTrue(result is Result.Failure)
-
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }
         }
     }
@@ -103,7 +98,6 @@ internal class ChecklistRepositoryTest {
             val result = checklistRepository.updateChecklist(checklist)
 
             assertTrue(result is Result.Success)
-
             verify(exactly = 1) { checklistLocalDataSource.updateChecklist(checklist) }
         }
 
@@ -115,7 +109,6 @@ internal class ChecklistRepositoryTest {
             val result = checklistRepository.updateChecklist(checklist)
 
             assertTrue(result is Result.Failure)
-
             verify(exactly = 1) { checklistLocalDataSource.updateChecklist(checklist) }
         }
     }

@@ -22,7 +22,6 @@ internal class LoginUseCaseTest {
         val actual = loginUseCase.login("invalid", correctPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { repository.login(any(), any()) }
     }
 
@@ -32,7 +31,6 @@ internal class LoginUseCaseTest {
         val actual = loginUseCase.login(registeredEmail, "password")
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { repository.login(any(), any()) }
     }
 
@@ -44,7 +42,6 @@ internal class LoginUseCaseTest {
         val actual = loginUseCase.login(unregisteredEmail, correctPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 1) { repository.login(unregisteredEmail, correctPassword) }
     }
 
@@ -58,7 +55,6 @@ internal class LoginUseCaseTest {
         val actual = loginUseCase.login(registeredEmail, incorrectPassword)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 1) { repository.login(registeredEmail, incorrectPassword) }
     }
 
@@ -70,7 +66,6 @@ internal class LoginUseCaseTest {
         val actual = loginUseCase.login(registeredEmail, correctPassword)
 
         assertTrue(actual is Result.Success)
-
         verify(exactly = 1) { repository.login(registeredEmail, correctPassword) }
     }
 }
