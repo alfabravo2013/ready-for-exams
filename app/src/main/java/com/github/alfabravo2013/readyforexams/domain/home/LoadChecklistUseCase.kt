@@ -4,8 +4,5 @@ import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresent
 import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
 
 class LoadChecklistUseCase(private val checklistRepository: ChecklistRepository) {
-    fun getChecklists(): List<ChecklistRepresentation> =
-        checklistRepository.getChecklists().map { checklist ->
-            checklist.toChecklistRepresentation()
-        }
+    fun getChecklists(): List<ChecklistRepresentation> = checklistRepository.getChecklists()
 }
