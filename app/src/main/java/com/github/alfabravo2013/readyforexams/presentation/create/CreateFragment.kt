@@ -52,7 +52,7 @@ class CreateFragment : BaseFragment(R.layout.fragment_create) {
     }
 
     private fun navigateToHomeScreen() {
-        showMessage("You have successfully created a new checklist")
+        showMessage(getString(R.string.create_checklist_created_text))
         findNavController().popBackStack()
     }
 }

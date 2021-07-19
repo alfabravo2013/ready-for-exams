@@ -71,7 +71,7 @@ internal class ChecklistRepositoryTest {
         fun addChecklistWithUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Success
 
-            val result = checklistRepository.addChecklist(name, taskRepresentations)
+            val result = checklistRepository.addChecklist(name)
 
             assertTrue(result is Result.Success)
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }
@@ -82,7 +82,7 @@ internal class ChecklistRepositoryTest {
         fun addChecklistWithNonUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Failure()
 
-            val result = checklistRepository.addChecklist(name, taskRepresentations)
+            val result = checklistRepository.addChecklist(name)
 
             assertTrue(result is Result.Failure)
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }

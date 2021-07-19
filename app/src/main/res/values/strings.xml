@@ -58,4 +58,5 @@
     <string name="create_item_name_hint">Enter an item</string>
     <string name="create_add_item_button_description">Add item button</string>
     <string name="create_title_text">Create</string>
+    <string name="create_checklist_created_text">You have successfully created a new checklist</string>
 </resources>
