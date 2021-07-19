@@ -6,22 +6,16 @@ import com.github.alfabravo2013.readyforexams.util.Result
 
 class ChecklistLocalDataSource {
     private val checklists = mutableMapOf<String, List<Task>>()
+    private val createdTasks = mutableListOf<Task>()
+
+    fun getCreatedTasks() = createdTasks.toList()
+
+    fun addCreatedTask(task: Task) = createdTasks.add(task)
+
+    fun clearCreatedTasks() = createdTasks.clear()
 
     fun getChecklists(): List<Checklist> = checklists.entries.map { entry ->
         Checklist(entry.key, entry.value)
-    }
-
-    fun isNameTaken(name: String): Boolean = checklists.containsKey(name)
-
-    fun createUniqueName(): String {
-        val newNumber = checklists.keys.asSequence()
-            .filter { name -> name.matches(Regex("New task #\\d+")) }
-            .map { name -> name.substring(name.lastIndexOf('#') + 1) }
-            .map { number -> number.toInt() }
-            .maxOrNull()
-            ?.plus(1) ?: 1
-
-        return "New task #$newNumber"
     }
 
     fun addChecklist(checklist: Checklist) : Result {

@@ -1,8 +1,11 @@
 package com.github.alfabravo2013.readyforexams.domain.home
 
 import com.github.alfabravo2013.readyforexams.domain.models.Checklist
+import com.github.alfabravo2013.readyforexams.domain.models.Task
 import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresentation
+import com.github.alfabravo2013.readyforexams.domain.models.toTaskRepresentation
 import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
+import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 
 class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDataSource) {
@@ -11,8 +14,17 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
             checklist.toChecklistRepresentation()
         }
 
-    fun addChecklist(checklist: Checklist): Result =
-        checklistLocalDataSource.addChecklist(checklist)
+    fun addChecklist(name: String): Result {
+        val tasks = checklistLocalDataSource.getCreatedTasks()
+        val checklist = Checklist(name, tasks)
+        val result = checklistLocalDataSource.addChecklist(checklist)
+
+        if (result is Result.Success) {
+            checklistLocalDataSource.clearCreatedTasks()
+        }
+
+        return result
+    }
 
     fun updateChecklist(checklist: Checklist): Result =
         checklistLocalDataSource.updateChecklist(checklist)
@@ -20,7 +32,13 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
     fun deleteChecklistByName(checklistName: String) =
         checklistLocalDataSource.deleteChecklistByName(checklistName)
 
-    fun isNameTaken(name: String): Boolean = checklistLocalDataSource.isNameTaken(name)
+    fun addTask(description: String) {
+        val task = Task(description)
+        checklistLocalDataSource.addCreatedTask(task)
+    }
 
-    fun createUniqueName(): String = checklistLocalDataSource.createUniqueName()
+    fun getCreatedTasks(): List<TaskRepresentation> =
+        checklistLocalDataSource.getCreatedTasks().map { task ->
+            task.toTaskRepresentation()
+        }
 }

@@ -2,6 +2,7 @@ package com.github.alfabravo2013.readyforexams.domain.home
 
 import com.github.alfabravo2013.readyforexams.domain.models.Checklist
 import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresentation
+import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import io.mockk.Runs
 import io.mockk.every
@@ -62,13 +63,15 @@ internal class ChecklistRepositoryTest {
     @Nested
     @DisplayName("When addChecklist")
     inner class AddChecklistTest {
+        private val name = "name"
+        private val taskRepresentations = listOf<TaskRepresentation>()
 
         @Test
         @DisplayName("Given a unique checklist name Then return Result.Success")
         fun addChecklistWithUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Success
 
-            val result = checklistRepository.addChecklist(checklist)
+            val result = checklistRepository.addChecklist(name, taskRepresentations)
 
             assertTrue(result is Result.Success)
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }
@@ -79,7 +82,7 @@ internal class ChecklistRepositoryTest {
         fun addChecklistWithNonUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Failure()
 
-            val result = checklistRepository.addChecklist(checklist)
+            val result = checklistRepository.addChecklist(name, taskRepresentations)
 
             assertTrue(result is Result.Failure)
             verify(exactly = 1) { checklistLocalDataSource.addChecklist(checklist) }
