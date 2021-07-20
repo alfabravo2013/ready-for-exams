@@ -21,7 +21,6 @@ internal class LoadChecklistUseCaseTest {
         val checklists = loadChecklistUseCase.getChecklists()
 
         assertEquals(0, checklists.size)
-
         verify(exactly = 1) { checklistRepository.getChecklists() }
     }
 
@@ -36,7 +35,6 @@ internal class LoadChecklistUseCaseTest {
         val checklists = loadChecklistUseCase.getChecklists()
 
         assertEquals(1, checklists.size)
-
         verify(exactly = 1) { checklistRepository.getChecklists() }
     }
 
@@ -51,7 +49,6 @@ internal class LoadChecklistUseCaseTest {
         val retrievedChecklists = checklistRepository.getChecklists()
 
         assertEquals(listOf(checklistRepresentation), retrievedChecklists)
-
         verify(exactly = 1) { checklistRepository.getChecklists() }
     }
 }

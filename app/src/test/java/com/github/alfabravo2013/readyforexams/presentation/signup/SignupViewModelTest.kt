@@ -46,7 +46,6 @@ internal class SignupViewModelTest {
         verify(exactly = 1) {
             signupUseCase.signup(email, password, password)
         }
-
         verifySequence {
             observer.onChanged(SignupViewModel.OnEvent.ShowProgress)
             observer.onChanged(SignupViewModel.OnEvent.SignupSuccess)
@@ -66,7 +65,6 @@ internal class SignupViewModelTest {
         verify(exactly = 1) {
             signupUseCase.signup(email, password, password)
         }
-
         verifySequence {
             observer.onChanged(SignupViewModel.OnEvent.ShowProgress)
             observer.onChanged(SignupViewModel.OnEvent.Error("error"))

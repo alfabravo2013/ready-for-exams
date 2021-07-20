@@ -6,6 +6,13 @@ import com.github.alfabravo2013.readyforexams.util.Result
 
 class ChecklistLocalDataSource {
     private val checklists = mutableMapOf<String, List<Task>>()
+    private val createdTasks = mutableListOf<Task>()
+
+    fun getCreatedTasks() = createdTasks.toList()
+
+    fun addCreatedTask(task: Task) = createdTasks.add(task)
+
+    fun clearCreatedTasks() = createdTasks.clear()
 
     fun getChecklists(): List<Checklist> = checklists.entries.map { entry ->
         Checklist(entry.key, entry.value)

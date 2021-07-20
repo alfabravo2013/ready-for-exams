@@ -21,7 +21,6 @@ internal class PasswordResetUseCaseTest {
         val actual = passwordResetUseCase.resetPassword("")
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 0) { loginRepository.resetPassword(any()) }
     }
 
@@ -35,7 +34,6 @@ internal class PasswordResetUseCaseTest {
         val actual = passwordResetUseCase.resetPassword(unregisteredEmail)
 
         assertTrue(actual is Result.Failure)
-
         verify(exactly = 1) { loginRepository.resetPassword(unregisteredEmail) }
     }
 
@@ -47,7 +45,6 @@ internal class PasswordResetUseCaseTest {
         val actual = passwordResetUseCase.resetPassword(registeredEmail)
 
         assertTrue(actual is Result.Success)
-
         verify(exactly = 1) { loginRepository.resetPassword(registeredEmail) }
     }
 }

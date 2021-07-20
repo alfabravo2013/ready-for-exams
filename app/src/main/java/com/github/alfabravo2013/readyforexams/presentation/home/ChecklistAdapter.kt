@@ -12,6 +12,26 @@ import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepre
 class ChecklistAdapter : RecyclerView.Adapter<ChecklistAdapter.ViewHolder>() {
     private val checklists = mutableListOf<ChecklistRepresentation>()
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemHomeChecklistBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = checklists[position]
+        holder.bind(item)
+    }
+
+    override fun getItemCount(): Int = checklists.size
+
+    fun setItems(items: List<ChecklistRepresentation>) {
+        checklists.clear()
+        checklists.addAll(items)
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(
         private val binding: ItemHomeChecklistBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -39,25 +59,5 @@ class ChecklistAdapter : RecyclerView.Adapter<ChecklistAdapter.ViewHolder>() {
                 homeChecklistItemStatusText.setTextColor(color)
             }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemHomeChecklistBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = checklists[position]
-        holder.bind(item)
-    }
-
-    override fun getItemCount(): Int = checklists.size
-
-    fun setItems(items: List<ChecklistRepresentation>) {
-        checklists.clear()
-        checklists.addAll(items)
-        notifyDataSetChanged()
     }
 }

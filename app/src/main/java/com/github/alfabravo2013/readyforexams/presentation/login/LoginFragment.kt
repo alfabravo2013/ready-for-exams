@@ -1,7 +1,9 @@
 package com.github.alfabravo2013.readyforexams.presentation.login
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,9 +13,11 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : BaseFragment(R.layout.fragment_login) {
+class LoginFragment : BaseFragment() {
     private val viewModel: LoginViewModel by viewModel()
-    private lateinit var binding: FragmentLoginBinding
+
+    private var _binding: FragmentLoginBinding? = null
+    private val binding: FragmentLoginBinding get() = _binding!!
 
     private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
@@ -26,9 +30,16 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentLoginBinding.bind(view)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setTitle()
 
         binding.loginLoginButton.setOnClickListener {
@@ -46,6 +57,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setTitle() {

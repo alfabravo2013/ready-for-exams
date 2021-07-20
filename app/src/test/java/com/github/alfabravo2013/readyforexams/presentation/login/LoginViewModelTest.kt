@@ -58,7 +58,6 @@ internal class LoginViewModelTest {
         viewModel.onLoginButtonClick(registeredEmail, correctPassword)
 
         verify(exactly = 1) { loginUseCase.login(registeredEmail, correctPassword) }
-
         verifySequence {
             observer.onChanged(LoginViewModel.OnEvent.ShowProgress)
             observer.onChanged(LoginViewModel.OnEvent.NavigateToHomeScreen)
@@ -76,7 +75,6 @@ internal class LoginViewModelTest {
         viewModel.onLoginButtonClick("email", correctPassword)
 
         verify(exactly = 1) { loginUseCase.login("email", correctPassword) }
-
         verifySequence {
             observer.onChanged(LoginViewModel.OnEvent.ShowProgress)
             observer.onChanged(LoginViewModel.OnEvent.Error("error"))
