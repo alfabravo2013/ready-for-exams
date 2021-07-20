@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.domain.create.AddTaskUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CreateChecklistUseCase
+import com.github.alfabravo2013.readyforexams.domain.create.GetCreatedTasksUseCase
 import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 class CreateViewModel(
     private val createChecklistUseCase: CreateChecklistUseCase,
     private val addTaskUseCase: AddTaskUseCase,
-    private val loadCreatedTasksUseCase: LoadCreatedTasksUseCase
+    private val getCreatedTasksUseCase: GetCreatedTasksUseCase
 ) : ViewModel() {
 
     private val _onEvent = SingleLiveEvent<OnEvent>()
@@ -22,7 +23,7 @@ class CreateViewModel(
         when (val result = addTaskUseCase.addTask(description)) {
             is Result.Failure -> _onEvent.value = OnEvent.Error(result.errorMessage)
             is Result.Success -> {
-                val taskRepresentations = loadCreatedTasksUseCase.getCreatedTasks()
+                val taskRepresentations = getCreatedTasksUseCase.getCreatedTasks()
                 _onEvent.value = OnEvent.LoadedTasks(taskRepresentations)
             }
         }

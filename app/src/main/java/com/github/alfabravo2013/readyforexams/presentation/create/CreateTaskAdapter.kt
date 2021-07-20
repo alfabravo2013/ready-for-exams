@@ -9,15 +9,6 @@ import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresenta
 class CreateTaskAdapter : RecyclerView.Adapter<CreateTaskAdapter.ViewHolder>() {
     private val tasks = mutableListOf<TaskRepresentation>()
 
-    class ViewHolder(
-        private val binding: ItemCreateTaskBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: TaskRepresentation) {
-            binding.createItemNameText.text = item.description
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCreateTaskBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -41,5 +32,14 @@ class CreateTaskAdapter : RecyclerView.Adapter<CreateTaskAdapter.ViewHolder>() {
     fun addItem(item: TaskRepresentation) {
         tasks.add(item)
         notifyItemInserted(tasks.lastIndex)
+    }
+
+    class ViewHolder(
+        private val binding: ItemCreateTaskBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: TaskRepresentation) {
+            binding.createItemNameText.text = item.description
+        }
     }
 }
