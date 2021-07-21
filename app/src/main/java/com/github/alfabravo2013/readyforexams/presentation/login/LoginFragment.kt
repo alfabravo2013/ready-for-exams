@@ -1,9 +1,7 @@
 package com.github.alfabravo2013.readyforexams.presentation.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,11 +11,8 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.login.LoginViewModel.OnEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : BaseFragment() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
     private val viewModel: LoginViewModel by viewModel()
-
-    private var _binding: FragmentLoginBinding? = null
-    private val binding: FragmentLoginBinding get() = _binding!!
 
     private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
@@ -28,15 +23,6 @@ class LoginFragment : BaseFragment() {
             is OnEvent.HideProgress -> binding.loginProgressBar.visibility = View.GONE
             is OnEvent.Error -> showError(event.message)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,11 +43,6 @@ class LoginFragment : BaseFragment() {
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setTitle() {

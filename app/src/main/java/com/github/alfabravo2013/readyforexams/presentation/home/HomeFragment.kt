@@ -1,9 +1,7 @@
 package com.github.alfabravo2013.readyforexams.presentation.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
@@ -13,11 +11,8 @@ import com.github.alfabravo2013.readyforexams.presentation.home.HomeViewModel.On
 import com.github.alfabravo2013.readyforexams.presentation.models.ChecklistRepresentation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModel()
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding get() = _binding!!
 
     private val adapter: ChecklistAdapter by lazy { ChecklistAdapter() }
 
@@ -29,15 +24,6 @@ class HomeFragment : BaseFragment() {
             is OnEvent.ShowProgress -> binding.homeProgressBar.visibility = View.VISIBLE
             is OnEvent.HideProgress -> binding.homeProgressBar.visibility = View.GONE
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,11 +42,6 @@ class HomeFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchChecklists()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun navigateToCreateScreen() {
