@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.domain.create.AddTaskUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CreateChecklistUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.GetCreatedTasksUseCase
+import com.github.alfabravo2013.readyforexams.domain.create.SaveChangesUseCase
 import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 class CreateViewModel(
     private val createChecklistUseCase: CreateChecklistUseCase,
     private val addTaskUseCase: AddTaskUseCase,
-    private val getCreatedTasksUseCase: GetCreatedTasksUseCase
+    private val getCreatedTasksUseCase: GetCreatedTasksUseCase,
+    private val saveChangesUseCase: SaveChangesUseCase
 ) : ViewModel() {
 
     private val _onEvent = SingleLiveEvent<OnEvent>()
@@ -37,13 +39,17 @@ class CreateViewModel(
     }
 
     fun onUpButtonClick() {
-
+        when (saveChangesUseCase.isSaveChangesRequired()) {
+            true -> _onEvent.value = OnEvent.ShowUnsavedChangesDialog
+            false -> _onEvent.value = OnEvent.NavigateToHomeScreen
+        }
     }
 
     sealed class OnEvent {
         data class LoadedTasks(val taskRepresentations: List<TaskRepresentation>) : OnEvent()
         object CreateChecklistSuccess : OnEvent()
         object ShowUnsavedChangesDialog : OnEvent()
+        object NavigateToHomeScreen : OnEvent()
         data class Error(val errorMessage: String = "") : OnEvent()
     }
 }

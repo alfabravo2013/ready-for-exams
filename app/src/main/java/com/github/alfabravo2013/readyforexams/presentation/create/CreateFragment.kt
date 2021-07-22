@@ -3,6 +3,7 @@ package com.github.alfabravo2013.readyforexams.presentation.create
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
@@ -11,7 +12,10 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.create.CreateViewModel.OnEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateFragment : BaseFragment<FragmentCreateBinding>(FragmentCreateBinding::inflate) {
+class CreateFragment :
+    BaseFragment<FragmentCreateBinding>(FragmentCreateBinding::inflate),
+    SaveChangesDialogFragment.SaveChangesDialogListener {
+
     private val viewModel: CreateViewModel by viewModel()
 
     private val adapter: CreateTaskAdapter by lazy { CreateTaskAdapter() }
@@ -19,10 +23,10 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>(FragmentCreateBinding
     private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
             is OnEvent.LoadedTasks -> adapter.setItems(event.taskRepresentations)
-            is OnEvent.CreateChecklistSuccess -> navigateToHomeScreen()
+            is OnEvent.CreateChecklistSuccess -> navigateToHomeScreen(true)
             is OnEvent.Error -> showMessage(event.errorMessage)
-            is OnEvent.ShowUnsavedChangesDialog -> {
-            }
+            is OnEvent.ShowUnsavedChangesDialog -> showUnsavedChangesDialog()
+            is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen(false)
         }
     }
 
@@ -41,17 +45,42 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>(FragmentCreateBinding
                 val description = taskEditText.text.toString()
                 viewModel.onAddTaskButtonClick(description)
             }
+
+            // TODO: 22.07.2021 add up button listener
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+    }
+
+    // TODO: 22.07.2021 refactor to passing clicks to viewmodel to emit events:
+    //  onPositiveButtonClick -> viewModel.onDialogPositiveButtonClick ->
+    //  createChecklistUseCase -> CreateChecklistSuccess event, and so on
+    override fun onPositiveButtonClick(dialog: DialogFragment) {
+        binding.createButton.performClick()
+    }
+
+    override fun onNegativeButtonClick(dialog: DialogFragment) {
+        navigateToHomeScreen(false)
+    }
+
+    override fun onNeutralButtonClick(dialog: DialogFragment) {
+        dialog.dismiss()
     }
 
     private fun showMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun navigateToHomeScreen() {
-        showMessage(getString(R.string.create_checklist_created_text))
+    private fun navigateToHomeScreen(showSuccessMessage: Boolean) {
+        if (showSuccessMessage) {
+            showMessage(getString(R.string.create_checklist_created_text))
+        }
+
         findNavController().popBackStack()
+    }
+
+    private fun showUnsavedChangesDialog() {
+        val dialog = SaveChangesDialogFragment()
+        dialog.show(requireActivity().supportFragmentManager, "SaveChangesDialog")
     }
 }
