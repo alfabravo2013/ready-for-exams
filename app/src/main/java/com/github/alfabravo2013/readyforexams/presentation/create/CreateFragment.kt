@@ -3,7 +3,6 @@ package com.github.alfabravo2013.readyforexams.presentation.create
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
@@ -13,8 +12,7 @@ import com.github.alfabravo2013.readyforexams.presentation.create.CreateViewMode
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateFragment :
-    BaseFragment<FragmentCreateBinding>(FragmentCreateBinding::inflate),
-    SaveChangesDialogFragment.SaveChangesDialogListener {
+    BaseFragment<FragmentCreateBinding>(FragmentCreateBinding::inflate) {
 
     private val viewModel: CreateViewModel by viewModel()
 
@@ -32,6 +30,7 @@ class CreateFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle(requireContext().getString(R.string.create_title_text))
+        setOnNavigateUpCallback { viewModel.onUpButtonClick() }
 
         binding.tasksRecyclerView.adapter = adapter
 
@@ -45,26 +44,9 @@ class CreateFragment :
                 val description = taskEditText.text.toString()
                 viewModel.onAddTaskButtonClick(description)
             }
-
-            // TODO: 22.07.2021 add up button listener
         }
 
         viewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
-    }
-
-    // TODO: 22.07.2021 refactor to passing clicks to viewmodel to emit events:
-    //  onPositiveButtonClick -> viewModel.onDialogPositiveButtonClick ->
-    //  createChecklistUseCase -> CreateChecklistSuccess event, and so on
-    override fun onPositiveButtonClick(dialog: DialogFragment) {
-        binding.createButton.performClick()
-    }
-
-    override fun onNegativeButtonClick(dialog: DialogFragment) {
-        navigateToHomeScreen(false)
-    }
-
-    override fun onNeutralButtonClick(dialog: DialogFragment) {
-        dialog.dismiss()
     }
 
     private fun showMessage(message: String) {
@@ -80,7 +62,7 @@ class CreateFragment :
     }
 
     private fun showUnsavedChangesDialog() {
-        val dialog = SaveChangesDialogFragment()
-        dialog.show(requireActivity().supportFragmentManager, "SaveChangesDialog")
+        // FIXME: 23.07.2021 add navigation destination and invoke the action
+        showMessage("Up button clicked, not implemented yet")
     }
 }

@@ -39,9 +39,10 @@ class CreateViewModel(
     }
 
     fun onUpButtonClick() {
-        when (saveChangesUseCase.isSaveChangesRequired()) {
-            true -> _onEvent.value = OnEvent.ShowUnsavedChangesDialog
-            false -> _onEvent.value = OnEvent.NavigateToHomeScreen
+        if (saveChangesUseCase.isSaveChangesRequired()) {
+            _onEvent.value = OnEvent.ShowUnsavedChangesDialog
+        } else {
+            _onEvent.value = OnEvent.NavigateToHomeScreen
         }
     }
 

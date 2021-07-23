@@ -23,12 +23,26 @@ abstract class BaseFragment<BINDING: ViewBinding>(
         return binding.root
     }
 
+    fun setToolbarTitle(title: String = "") {
+        (activity as MainActivity).setToolbarTitle(title)
+    }
+
+    fun showToolbarUpButton() {
+        (activity as MainActivity).setToolbarUpButtonVisible(true)
+    }
+
+    fun setOnNavigateUpCallback(callback: () -> Unit) {
+        (activity as MainActivity).setOnNavigateUpCallback(callback)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    fun setToolbarTitle(title: String = "") {
-        (activity as MainActivity).setToolbarTitle(title)
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).setToolbarUpButtonVisible(false)
+        (activity as MainActivity).setOnNavigateUpCallback(null)
     }
 }
