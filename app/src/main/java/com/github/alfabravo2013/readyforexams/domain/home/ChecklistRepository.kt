@@ -41,4 +41,8 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
         checklistLocalDataSource.getCreatedTasks().map { task ->
             task.toTaskRepresentation()
         }
+
+    fun discardUnsavedChecklist() = checklistLocalDataSource.discardUnsavedChecklist()
+
+    fun storeUnsavedChecklist(name: String) = checklistLocalDataSource.storeUnsavedChecklist(name)
 }
