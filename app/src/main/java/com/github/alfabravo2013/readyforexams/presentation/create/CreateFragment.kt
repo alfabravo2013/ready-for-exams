@@ -1,7 +1,9 @@
 package com.github.alfabravo2013.readyforexams.presentation.create
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,8 +13,7 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.create.CreateViewModel.OnEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateFragment :
-    BaseFragment<FragmentCreateBinding>(FragmentCreateBinding::inflate) {
+class CreateFragment : BaseFragment<FragmentCreateBinding>() {
 
     private val viewModel: CreateViewModel by viewModel()
 
@@ -26,6 +27,14 @@ class CreateFragment :
             is OnEvent.ShowUnsavedChangesDialog -> showUnsavedChangesDialog()
             is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen(false)
         }
+    }
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentCreateBinding {
+        return FragmentCreateBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

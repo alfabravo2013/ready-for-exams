@@ -1,8 +1,10 @@
 package com.github.alfabravo2013.readyforexams.presentation.landing
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.github.alfabravo2013.readyforexams.R
@@ -11,8 +13,16 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
+class LandingFragment : BaseFragment<FragmentLandingBinding>() {
     private val viewModel: LandingViewModel by viewModel()
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentLandingBinding {
+        return FragmentLandingBinding.inflate(inflater, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle()
