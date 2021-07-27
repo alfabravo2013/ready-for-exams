@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.alfabravo2013.readyforexams.R
@@ -40,18 +41,25 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle(requireContext().getString(R.string.create_title_text))
         setOnNavigateUpCallback { viewModel.onUpButtonClick() }
+        showToolbarUpButton()
 
         binding.tasksRecyclerView.adapter = adapter
 
         with(binding) {
             createButton.setOnClickListener {
-                val name = checklistNameEditText.text.toString()
-                viewModel.onCreateButtonClick(name)
+                viewModel.onCreateButtonClick()
             }
 
             addImageViewButton.setOnClickListener {
-                val description = taskEditText.text.toString()
-                viewModel.onAddTaskButtonClick(description)
+                viewModel.onAddTaskButtonClick()
+            }
+
+            checklistNameEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateCurrentChecklistName(text.toString())
+            }
+
+            taskEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateCurrentTaskDescription(text.toString())
             }
         }
 
@@ -71,7 +79,6 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
     }
 
     private fun showUnsavedChangesDialog() {
-        // FIXME: 23.07.2021 add navigation destination and invoke the action
-        showMessage("Up button clicked, not implemented yet")
+        findNavController().navigate(R.id.action_createFragment_to_saveChangesDialogFragment)
     }
 }

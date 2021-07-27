@@ -52,5 +52,18 @@
         android:id="@+id/createFragment"
         android:name="com.github.alfabravo2013.readyforexams.presentation.create.CreateFragment"
         android:label="CreateFragment"
-        tools:layout="@layout/fragment_create"/>
+        tools:layout="@layout/fragment_create">
+        <action
+            android:id="@+id/action_createFragment_to_saveChangesDialogFragment"
+            app:destination="@id/saveChangesDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/saveChangesDialogFragment"
+        android:name="com.github.alfabravo2013.readyforexams.presentation.create.SaveChangesDialogFragment"
+        android:label="SaveChangesDialogFragment" >
+        <action
+            android:id="@+id/action_saveChangesDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </dialog>
 </navigation>

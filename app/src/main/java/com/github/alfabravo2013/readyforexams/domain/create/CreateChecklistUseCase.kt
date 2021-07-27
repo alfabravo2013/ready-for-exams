@@ -9,6 +9,7 @@ class CreateChecklistUseCase(private val checklistRepository: ChecklistRepositor
             return Result.Failure("Please enter the checklist name")
         }
 
+        checklistRepository.discardUnsavedChecklist()
         return checklistRepository.addChecklist(name)
     }
 }
