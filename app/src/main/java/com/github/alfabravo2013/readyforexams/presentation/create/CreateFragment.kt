@@ -40,9 +40,6 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle(requireContext().getString(R.string.create_title_text))
-        setOnNavigateUpCallback { viewModel.onUpButtonClick() }
-        showToolbarUpButton()
-
         binding.tasksRecyclerView.adapter = adapter
 
         with(binding) {
