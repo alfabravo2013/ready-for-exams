@@ -1,6 +1,7 @@
 package com.github.alfabravo2013.readyforexams.di
 
 import com.github.alfabravo2013.readyforexams.domain.create.AddTaskUseCase
+import com.github.alfabravo2013.readyforexams.domain.create.CheckUnsavedChangesUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CreateChecklistUseCase
 import com.github.alfabravo2013.readyforexams.domain.home.ChecklistLocalDataSource
 import com.github.alfabravo2013.readyforexams.domain.home.ChecklistRepository
@@ -19,7 +20,8 @@ val homeModule = module {
     factory { CreateChecklistUseCase(get()) }
     factory { AddTaskUseCase(get()) }
     factory { GetCreatedTasksUseCase(get()) }
+    factory { CheckUnsavedChangesUseCase(get()) }
 
     viewModel { HomeViewModel(get()) }
-    viewModel { CreateViewModel(get(), get(), get()) }
+    viewModel { CreateViewModel(get(), get(), get(), get()) }
 }

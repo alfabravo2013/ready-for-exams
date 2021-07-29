@@ -1,7 +1,9 @@
 package com.github.alfabravo2013.readyforexams.presentation.passwordreset
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,8 +13,7 @@ import com.github.alfabravo2013.readyforexams.presentation.BaseFragment
 import com.github.alfabravo2013.readyforexams.presentation.passwordreset.PasswordResetViewModel.OnEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PasswordResetFragment :
-    BaseFragment<FragmentPasswordResetBinding>(FragmentPasswordResetBinding::inflate) {
+class PasswordResetFragment : BaseFragment<FragmentPasswordResetBinding>() {
 
     private val viewModel: PasswordResetViewModel by viewModel()
 
@@ -24,6 +25,14 @@ class PasswordResetFragment :
             is OnEvent.NavigateToLoginScreen -> navigateToLoginScreen()
             is OnEvent.Error -> showError(event.message)
         }
+    }
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentPasswordResetBinding {
+        return FragmentPasswordResetBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -8,6 +8,8 @@ class ChecklistLocalDataSource {
     private val checklists = mutableMapOf<String, List<Task>>()
     private val createdTasks = mutableListOf<Task>()
 
+    private var unsavedChecklist: Checklist? = null
+
     fun getCreatedTasks() = createdTasks.toList()
 
     fun addCreatedTask(task: Task) = createdTasks.add(task)
@@ -38,5 +40,14 @@ class ChecklistLocalDataSource {
 
     fun deleteChecklistByName(checklistName: String) {
         checklists.remove(checklistName)
+    }
+
+    fun storeUnsavedChecklist(checklistName: String) {
+        unsavedChecklist = Checklist(checklistName, createdTasks)
+    }
+
+    fun discardUnsavedChecklist() {
+        unsavedChecklist = null
+        clearCreatedTasks()
     }
 }
