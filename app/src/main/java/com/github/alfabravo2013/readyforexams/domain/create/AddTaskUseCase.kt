@@ -5,7 +5,8 @@ import com.github.alfabravo2013.readyforexams.util.Result
 
 class AddTaskUseCase(private val checklistRepository: ChecklistRepository) {
 
-    fun addTask(description: String): Result {
+    fun addTask(): Result {
+        val description = checklistRepository.getEditedTaskDescription()
         if (description.isBlank()) {
             return Result.Failure("Please enter a description for this task")
         }

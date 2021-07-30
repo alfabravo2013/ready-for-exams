@@ -6,9 +6,27 @@ import com.github.alfabravo2013.readyforexams.util.Result
 
 class ChecklistLocalDataSource {
     private val checklists = mutableMapOf<String, List<Task>>()
+
     private val createdTasks = mutableListOf<Task>()
 
+    private var editedChecklistName: String = ""
+    private var editedTaskDescription: String = ""
+
     private var unsavedChecklist: Checklist? = null
+
+    fun setEditedChecklistName(name: String) {
+        editedChecklistName = name
+    }
+
+    fun setEditedTaskDescription(description: String) {
+        editedTaskDescription = description
+    }
+
+    fun getEditedChecklistName() = editedChecklistName
+
+    fun getEditedTaskDescription() = editedTaskDescription
+
+    fun getEditedChecklist(): Checklist? = unsavedChecklist
 
     fun getCreatedTasks() = createdTasks.toList()
 
@@ -42,20 +60,12 @@ class ChecklistLocalDataSource {
         checklists.remove(checklistName)
     }
 
-    fun storeUnsavedChecklist(checklistName: String) {
-        unsavedChecklist = Checklist(checklistName, createdTasks)
+    fun storeEditedChecklist() {
+        unsavedChecklist = Checklist(editedChecklistName, createdTasks)
     }
 
-    fun discardUnsavedChecklist() {
+    fun discardEditedChecklist() {
         unsavedChecklist = null
         clearCreatedTasks()
-    }
-
-    fun saveUnsavedChecklist(): Result {
-        val unsaved = unsavedChecklist
-
-        return unsaved?.let {
-            addChecklist(it)
-        } ?: Result.Failure("No unsaved checklist found")
     }
 }
