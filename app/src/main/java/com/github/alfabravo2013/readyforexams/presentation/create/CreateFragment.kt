@@ -23,10 +23,11 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
     private val onEventObserver = Observer<OnEvent> { event ->
         when (event) {
             is OnEvent.LoadedTasks -> adapter.setItems(event.taskRepresentations)
-            is OnEvent.CreateChecklistSuccess -> navigateToHomeScreen(true)
+            is OnEvent.CreateChecklistSuccess -> navigateToHomeScreen()
+            is OnEvent.ChecklistCreatedMessage -> showChecklistCreatedMessage()
             is OnEvent.Error -> showMessage(event.errorMessage)
             is OnEvent.ShowUnsavedChangesDialog -> showUnsavedChangesDialog()
-            is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen(false)
+            is OnEvent.NavigateToHomeScreen -> navigateToHomeScreen()
         }
     }
 
@@ -67,11 +68,11 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun navigateToHomeScreen(showSuccessMessage: Boolean = false) {
-        if (showSuccessMessage) {
-            showMessage(getString(R.string.create_checklist_created_text))
-        }
+    private fun showChecklistCreatedMessage() {
+        showMessage(getString(R.string.create_checklist_created_text))
+    }
 
+    private fun navigateToHomeScreen() {
         findNavController().popBackStack()
     }
 
