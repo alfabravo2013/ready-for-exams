@@ -13,7 +13,7 @@ class SaveChangesDialogViewModel(
         saveChangesUseCase.saveChanges()
     }
 
-    fun onNegativeButtonClick() {
+    fun onNegativeButtonClick() = viewModelScope.launch {
         saveChangesUseCase.discardChanges()
     }
 }

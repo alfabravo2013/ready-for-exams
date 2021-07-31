@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,10 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
         setToolbarTitle(requireContext().getString(R.string.create_title_text))
         binding.tasksRecyclerView.adapter = adapter
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.onUpButtonClick()
+        }
+
         with(binding) {
             createButton.setOnClickListener {
                 viewModel.onCreateButtonClick()
@@ -77,7 +82,6 @@ class CreateFragment : BaseFragment<FragmentCreateBinding>() {
     }
 
     private fun showUnsavedChangesDialog() {
-        showMessage("Save Change Dialog is not implemented yet")
-        navigateToHomeScreen()
+        findNavController().navigate(R.id.action_createFragment_to_saveChangesDialogFragment)
     }
 }

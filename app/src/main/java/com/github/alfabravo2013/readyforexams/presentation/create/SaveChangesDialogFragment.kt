@@ -13,24 +13,28 @@ class SaveChangesDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
-            .setTitle("Unsaved changes")
-            .setMessage("Any unsaved changes will be discarded. Do you want to save them?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(getString(R.string.save_changes_dialog_title))
+            .setMessage(getString(R.string.save_changes_dialog_message))
+            .setPositiveButton(getString(R.string.save_changes_dialog_positive)) { _, _ ->
                 viewModel.onPositiveButtonClick()
+                navigateToHomeScreen()
             }
-            .setNegativeButton("No") { _, _ ->
+            .setNegativeButton(getString(R.string.save_changes_dialog_nagative)) { _, _ ->
                 viewModel.onNegativeButtonClick()
                 navigateToHomeScreen()
             }
+            .setNeutralButton(getString(R.string.save_changes_dialog_neutral)) { _, _ ->
+                dismiss()
+            }
             .create()
-    }
-
-    private fun navigateToHomeScreen() {
-        findNavController().navigate(R.id.action_saveChangesDialogFragment_to_homeFragment)
     }
 
     override fun onResume() {
         super.onResume()
         this.showsDialog = true
+    }
+
+    private fun navigateToHomeScreen() {
+        findNavController().navigate(R.id.action_saveChangesDialogFragment_to_homeFragment)
     }
 }

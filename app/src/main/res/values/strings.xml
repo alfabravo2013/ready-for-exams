@@ -59,4 +59,11 @@
     <string name="create_add_item_button_description">Add item button</string>
     <string name="create_title_text">Create</string>
     <string name="create_checklist_created_text">You have successfully created a new checklist</string>
+
+<!--    Save changes dialog -->
+    <string name="save_changes_dialog_title">Unsaved changes</string>
+    <string name="save_changes_dialog_message">Any unsaved changes will be discarded. Do you want to save them?</string>
+    <string name="save_changes_dialog_positive">Yes</string>
+    <string name="save_changes_dialog_nagative">No</string>
+    <string name="save_changes_dialog_neutral">Cancel</string>
 </resources>

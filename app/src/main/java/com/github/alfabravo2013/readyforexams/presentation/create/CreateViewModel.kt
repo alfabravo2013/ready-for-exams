@@ -6,7 +6,7 @@ import com.github.alfabravo2013.readyforexams.domain.create.AddTaskUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CreateChecklistUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.GetCreatedTasksUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CheckUnsavedChangesUseCase
-import com.github.alfabravo2013.readyforexams.domain.create.UpdateEditedData
+import com.github.alfabravo2013.readyforexams.domain.create.UpdateEditedDataUseCase
 import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
@@ -17,7 +17,7 @@ class CreateViewModel(
     private val addTaskUseCase: AddTaskUseCase,
     private val getCreatedTasksUseCase: GetCreatedTasksUseCase,
     private val checkUnsavedChangesUseCase: CheckUnsavedChangesUseCase,
-    private val updateEditedData: UpdateEditedData
+    private val updateEditedDataUseCase: UpdateEditedDataUseCase
 ) : ViewModel() {
 
     private val _onEvent = SingleLiveEvent<OnEvent>()
@@ -52,11 +52,11 @@ class CreateViewModel(
     }
 
     fun updateCurrentChecklistName(checklistName: String) = viewModelScope.launch {
-        updateEditedData.setEditedChecklistName(checklistName)
+        updateEditedDataUseCase.setEditedChecklistName(checklistName)
     }
 
     fun updateCurrentTaskDescription(taskDescription: String) = viewModelScope.launch {
-        updateEditedData.setEditedTaskDescription(taskDescription)
+        updateEditedDataUseCase.setEditedTaskDescription(taskDescription)
     }
 
     sealed class OnEvent {

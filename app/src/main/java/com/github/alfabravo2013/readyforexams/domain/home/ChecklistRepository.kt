@@ -57,4 +57,6 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
     fun storeEditedChecklist() = checklistLocalDataSource.storeEditedChecklist()
 
     fun discardEditedChecklist() = checklistLocalDataSource.discardEditedChecklist()
+
+    fun saveEditedChecklist() = checklistLocalDataSource.saveEditedChecklist()
 }

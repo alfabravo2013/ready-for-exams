@@ -60,6 +60,11 @@ class ChecklistLocalDataSource {
         checklists.remove(checklistName)
     }
 
+    fun saveEditedChecklist() {
+        val checklist = getEditedChecklist() ?: return
+        addChecklist(checklist)
+    }
+
     fun storeEditedChecklist() {
         unsavedChecklist = Checklist(editedChecklistName, createdTasks)
     }
