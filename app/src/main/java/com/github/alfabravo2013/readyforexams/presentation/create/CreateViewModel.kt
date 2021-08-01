@@ -6,6 +6,7 @@ import com.github.alfabravo2013.readyforexams.domain.create.AddTaskUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CreateChecklistUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.GetCreatedTasksUseCase
 import com.github.alfabravo2013.readyforexams.domain.create.CheckUnsavedChangesUseCase
+import com.github.alfabravo2013.readyforexams.domain.create.UpdateEditedDataUseCase
 import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
@@ -15,17 +16,15 @@ class CreateViewModel(
     private val createChecklistUseCase: CreateChecklistUseCase,
     private val addTaskUseCase: AddTaskUseCase,
     private val getCreatedTasksUseCase: GetCreatedTasksUseCase,
-    private val checkUnsavedChangesUseCase: CheckUnsavedChangesUseCase
+    private val checkUnsavedChangesUseCase: CheckUnsavedChangesUseCase,
+    private val updateEditedDataUseCase: UpdateEditedDataUseCase
 ) : ViewModel() {
-
-    private var currentChecklistName: String = ""
-    private var currentTaskDescription: String = ""
 
     private val _onEvent = SingleLiveEvent<OnEvent>()
     val onEvent: SingleLiveEvent<OnEvent> get() = _onEvent
 
     fun onAddTaskButtonClick() = viewModelScope.launch {
-        when (val result = addTaskUseCase.addTask(currentTaskDescription)) {
+        when (val result = addTaskUseCase.addTask()) {
             is Result.Failure -> _onEvent.value = OnEvent.Error(result.errorMessage)
             is Result.Success -> {
                 val taskRepresentations = getCreatedTasksUseCase.getCreatedTasks()
@@ -35,26 +34,29 @@ class CreateViewModel(
     }
 
     fun onCreateButtonClick() = viewModelScope.launch {
-        when (val result = createChecklistUseCase.createChecklist(currentChecklistName)) {
-            is Result.Success -> _onEvent.value = OnEvent.CreateChecklistSuccess
+        when (val result = createChecklistUseCase.createChecklist()) {
+            is Result.Success -> {
+                _onEvent.value = OnEvent.ChecklistCreatedMessage
+                _onEvent.value = OnEvent.CreateChecklistSuccess
+            }
             is Result.Failure -> _onEvent.value = OnEvent.Error(result.errorMessage)
         }
     }
 
     fun onUpButtonClick() = viewModelScope.launch {
-        if (checkUnsavedChangesUseCase.isSaveChangesRequired(currentChecklistName)) {
+        if (checkUnsavedChangesUseCase.isSaveChangesRequired()) {
             _onEvent.value = OnEvent.ShowUnsavedChangesDialog
         } else {
             _onEvent.value = OnEvent.NavigateToHomeScreen
         }
     }
 
-    fun updateCurrentChecklistName(checklistName: String) {
-        currentChecklistName = checklistName
+    fun updateCurrentChecklistName(checklistName: String) = viewModelScope.launch {
+        updateEditedDataUseCase.setEditedChecklistName(checklistName)
     }
 
-    fun updateCurrentTaskDescription(taskDescription: String) {
-        currentTaskDescription = taskDescription
+    fun updateCurrentTaskDescription(taskDescription: String) = viewModelScope.launch {
+        updateEditedDataUseCase.setEditedTaskDescription(taskDescription)
     }
 
     sealed class OnEvent {
@@ -62,6 +64,7 @@ class CreateViewModel(
         object CreateChecklistSuccess : OnEvent()
         object ShowUnsavedChangesDialog : OnEvent()
         object NavigateToHomeScreen : OnEvent()
+        object ChecklistCreatedMessage : OnEvent()
         data class Error(val errorMessage: String = "") : OnEvent()
     }
 }

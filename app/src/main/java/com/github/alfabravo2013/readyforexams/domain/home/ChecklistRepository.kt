@@ -42,7 +42,21 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
             task.toTaskRepresentation()
         }
 
-    fun discardUnsavedChecklist() = checklistLocalDataSource.discardUnsavedChecklist()
+    fun getEditedChecklist() = checklistLocalDataSource.getEditedChecklist()
 
-    fun storeUnsavedChecklist(name: String) = checklistLocalDataSource.storeUnsavedChecklist(name)
+    fun getEditedChecklistName() = checklistLocalDataSource.getEditedChecklistName()
+
+    fun getEditedTaskDescription() = checklistLocalDataSource.getEditedTaskDescription()
+
+    fun setEditedChecklistName(name: String) =
+        checklistLocalDataSource.setEditedChecklistName(name)
+
+    fun setEditedTaskDescription(description: String) =
+        checklistLocalDataSource.setEditedTaskDescription(description)
+
+    fun storeEditedChecklist() = checklistLocalDataSource.storeEditedChecklist()
+
+    fun discardEditedChecklist() = checklistLocalDataSource.discardEditedChecklist()
+
+    fun saveEditedChecklist() = checklistLocalDataSource.saveEditedChecklist()
 }
