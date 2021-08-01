@@ -11,7 +11,6 @@ import com.github.alfabravo2013.readyforexams.presentation.create.SaveChangesDia
 import org.koin.android.ext.android.inject
 
 class SaveChangesDialogFragment : DialogFragment() {
-
     private val viewModel: SaveChangesDialogViewModel by inject()
 
     private val onEventObserver = Observer<OnEvent> { event ->
