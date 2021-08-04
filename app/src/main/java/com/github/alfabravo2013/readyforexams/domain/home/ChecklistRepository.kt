@@ -42,8 +42,6 @@ class ChecklistRepository(private val checklistLocalDataSource: ChecklistLocalDa
             task.toTaskRepresentation()
         }
 
-    fun getEditedChecklist() = checklistLocalDataSource.getEditedChecklist()
-
     fun getEditedChecklistName() = checklistLocalDataSource.getEditedChecklistName()
 
     fun getEditedTaskDescription() = checklistLocalDataSource.getEditedTaskDescription()

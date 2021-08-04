@@ -12,7 +12,7 @@ class ChecklistLocalDataSource {
     private var editedChecklistName: String = ""
     private var editedTaskDescription: String = ""
 
-    private var unsavedChecklist: Checklist? = null
+    private var editedChecklist: Checklist? = null
 
     fun setEditedChecklistName(name: String) {
         editedChecklistName = name
@@ -26,7 +26,7 @@ class ChecklistLocalDataSource {
 
     fun getEditedTaskDescription() = editedTaskDescription
 
-    fun getEditedChecklist(): Checklist? = unsavedChecklist
+    fun getEditedChecklist(): Checklist? = editedChecklist
 
     fun getCreatedTasks() = createdTasks.toList()
 
@@ -66,11 +66,11 @@ class ChecklistLocalDataSource {
     }
 
     fun storeEditedChecklist() {
-        unsavedChecklist = Checklist(editedChecklistName, createdTasks)
+        editedChecklist = Checklist(editedChecklistName, createdTasks)
     }
 
     fun discardEditedChecklist() {
-        unsavedChecklist = null
+        editedChecklist = null
         clearCreatedTasks()
     }
 }

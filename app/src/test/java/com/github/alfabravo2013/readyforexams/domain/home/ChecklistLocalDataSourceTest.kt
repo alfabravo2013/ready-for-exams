@@ -8,13 +8,16 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 internal class ChecklistLocalDataSourceTest {
     private val checklistLocalDataSource = ChecklistLocalDataSource()
     private val checklist = Checklist("name", listOf())
 
     @Nested
-    @DisplayName("When getChecklist")
+    @DisplayName("When getChecklists")
     inner class GetChecklistsTest {
 
         @Test
@@ -158,6 +161,179 @@ internal class ChecklistLocalDataSourceTest {
             val checklists = checklistLocalDataSource.getChecklists()
 
             assertEquals(1, checklists.size)
+        }
+    }
+
+    @Nested
+    @DisplayName("createdTasks")
+    inner class CreatedTasksTest {
+        private val task = Task("description")
+
+        @Test
+        @DisplayName("Given no tasks added, When getCreatedTasks, Then return empty list")
+        fun getCreatedTasksEmpty() {
+            val createdTasks = checklistLocalDataSource.getCreatedTasks()
+
+            assertTrue(createdTasks.isEmpty())
+        }
+
+        @Test
+        @DisplayName("Given one task added, When getCreatedTasks, Then return a list with a single created task")
+        fun getCreatedTasksSingle() {
+            checklistLocalDataSource.addCreatedTask(task)
+
+            val createdTasks = checklistLocalDataSource.getCreatedTasks()
+
+            assertEquals(1, createdTasks.size)
+        }
+
+        @Test
+        @DisplayName("Given one task added, When getCreatedTasks, Then return a list containing the added task")
+        fun getCreatedTasksSame() {
+            checklistLocalDataSource.addCreatedTask(task)
+
+            val createdTasks = checklistLocalDataSource.getCreatedTasks()
+
+            assertEquals(task, createdTasks.first())
+        }
+
+        @Test
+        @DisplayName("Given non-empty createdTasks, When clearCreatedTasks, Then return empty list")
+        fun clearCreatedTasks() {
+            checklistLocalDataSource.addCreatedTask(task)
+            checklistLocalDataSource.clearCreatedTasks()
+
+            val createdTasks = checklistLocalDataSource.getCreatedTasks()
+
+            assertTrue(createdTasks.isEmpty())
+        }
+    }
+
+    @Nested
+    @DisplayName("EditedChecklist")
+    inner class EditedChecklistTest {
+
+        @Test
+        @DisplayName("Given no EditedChecklist created, When getEditedChecklist, Then return null")
+        fun getEditedChecklistNull() {
+            val editedChecklist = checklistLocalDataSource.getEditedChecklist()
+
+            assertNull(editedChecklist)
+        }
+
+        @Test
+        @DisplayName("Given EditedChecklist is stored, When getEditedChecklist, Then return non-null Checklist")
+        fun getEditedChecklist() {
+            checklistLocalDataSource.storeEditedChecklist()
+
+            val editedChecklist = checklistLocalDataSource.getEditedChecklist()
+
+            assertNotNull(editedChecklist)
+        }
+
+        @Test
+        @DisplayName("Given no EditedChecklist is stored, When saveEditedChecklist, Then no Checklist is added")
+        fun saveEditedChecklistNull() {
+            checklistLocalDataSource.saveEditedChecklist()
+
+            val checklists = checklistLocalDataSource.getChecklists()
+
+            assertTrue(checklists.isEmpty())
+        }
+
+        @Test
+        @DisplayName("Given EditedChecklist was stored, When saveEditedChecklist, Then that Checklist is added")
+        fun saveEditedChecklistNonNull() {
+            checklistLocalDataSource.storeEditedChecklist()
+            checklistLocalDataSource.saveEditedChecklist()
+
+            val checklists = checklistLocalDataSource.getChecklists()
+
+            assertEquals(1, checklists.size)
+        }
+
+        @Test
+        @DisplayName("Given EditedChecklist was discarded, When getEditedChecklist, Then return null")
+        fun discardEditedChecklist() {
+            checklistLocalDataSource.storeEditedChecklist()
+            checklistLocalDataSource.discardEditedChecklist()
+
+            val editedChecklist = checklistLocalDataSource.getEditedChecklist()
+
+            assertNull(editedChecklist)
+        }
+
+        @Test
+        @DisplayName("Given non-empty createdTasks, When storeEditedChecklist, Then editedChecklist has the given tasks")
+        fun storeEditedChecklistNonEmptyTasks() {
+            val task = Task("description")
+            checklistLocalDataSource.addCreatedTask(task)
+            checklistLocalDataSource.storeEditedChecklist()
+
+            val createdTasks = checklistLocalDataSource.getCreatedTasks()
+            val storedTasks = checklistLocalDataSource.getEditedChecklist()?.tasks ?: emptyList()
+
+            assertContentEquals(createdTasks, storedTasks)
+        }
+    }
+
+    @Nested
+    @DisplayName("editedChecklistName")
+    inner class EditedChecklistNameTest {
+
+        @Test
+        @DisplayName("Given editedChecklistName hasn't been changed, When getEditedChecklistName, Then return empty string")
+        fun getEditedChecklistNameEmpty() {
+            val name = checklistLocalDataSource.getEditedChecklistName()
+
+            assertTrue(name.isEmpty())
+        }
+
+        @Test
+        @DisplayName("Given editedChecklistName is set, When getEditedChecklistName, Then return the set string")
+        fun getEditedChecklistNameAsSet() {
+            val name = "name"
+            checklistLocalDataSource.setEditedChecklistName(name)
+
+            val editedChecklistName = checklistLocalDataSource.getEditedChecklistName()
+
+            assertEquals(name, editedChecklistName)
+        }
+
+        @Test
+        @DisplayName("Given any editedChecklistName, When storeEditedChecklist, Then editedChecklist has the given name")
+        fun setEditedChecklistNameStored() {
+            val name = "name"
+            checklistLocalDataSource.setEditedChecklistName(name)
+            checklistLocalDataSource.storeEditedChecklist()
+
+            val editedChecklist = checklistLocalDataSource.getEditedChecklist()
+
+            assertEquals(name, editedChecklist?.name)
+        }
+    }
+
+    @Nested
+    @DisplayName("editedTaskDescription")
+    inner class EditedTaskDescriptionTest {
+
+        @Test
+        @DisplayName("Given editedTaskDescription was not changed, When getEditedTaskDescription, Then return empty string")
+        fun getEditedTaskDescriptionEmpty() {
+            val description = checklistLocalDataSource.getEditedTaskDescription()
+
+            assertTrue(description.isEmpty())
+        }
+
+        @Test
+        @DisplayName("Given editedTaskDescription was set, When getEditedTaskDescription, Then return the same string")
+        fun getEditedTaskDescriptionSame() {
+            val description = "description"
+            checklistLocalDataSource.setEditedTaskDescription(description)
+
+            val editedTaskDescription = checklistLocalDataSource.getEditedTaskDescription()
+
+            assertEquals(description, editedTaskDescription)
         }
     }
 }
