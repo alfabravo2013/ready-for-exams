@@ -61,8 +61,12 @@ class ChecklistLocalDataSource {
     }
 
     fun saveEditedChecklist() {
-        val checklist = getEditedChecklist() ?: return
-        addChecklist(checklist)
+        val checklist = getEditedChecklist()
+        discardEditedChecklist()
+
+        if (checklist != null) {
+            addChecklist(checklist)
+        }
     }
 
     fun storeEditedChecklist() {
@@ -71,6 +75,8 @@ class ChecklistLocalDataSource {
 
     fun discardEditedChecklist() {
         editedChecklist = null
+        editedChecklistName = ""
+        editedTaskDescription = ""
         clearCreatedTasks()
     }
 }

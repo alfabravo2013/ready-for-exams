@@ -223,7 +223,7 @@ internal class ChecklistLocalDataSourceTest {
 
         @Test
         @DisplayName("Given EditedChecklist is stored, When getEditedChecklist, Then return non-null Checklist")
-        fun getEditedChecklist() {
+        fun getEditedChecklistNonNull() {
             checklistLocalDataSource.storeEditedChecklist()
 
             val editedChecklist = checklistLocalDataSource.getEditedChecklist()
@@ -334,6 +334,53 @@ internal class ChecklistLocalDataSourceTest {
             val editedTaskDescription = checklistLocalDataSource.getEditedTaskDescription()
 
             assertEquals(description, editedTaskDescription)
+        }
+    }
+
+    @Nested
+    @DisplayName("Internal State")
+    inner class InternalStateTest {
+
+        @Test
+        @DisplayName("Given any case, When initialized, Then editable state is clean")
+        fun initialize() {
+            assertTrue(isStateClean())
+        }
+
+        @Test
+        @DisplayName("Given any case, When saveEditedChecklist, Then editable state is clean")
+        fun cleanStateOnSaveEditedChecklist() {
+            makeStateDirty()
+
+            checklistLocalDataSource.saveEditedChecklist()
+
+            assertTrue(isStateClean())
+        }
+
+        @Test
+        @DisplayName("Given any case, When discardEditedChecklist, Then editable state is clean")
+        fun cleanStateOnDiscardEditedChecklist() {
+            makeStateDirty()
+
+            checklistLocalDataSource.discardEditedChecklist()
+
+            assertTrue(isStateClean())
+        }
+
+        private fun isStateClean(): Boolean {
+            return with(checklistLocalDataSource) {
+                getEditedChecklistName().isEmpty() &&
+                        getEditedTaskDescription().isEmpty() &&
+                        getCreatedTasks().isEmpty() &&
+                        getEditedChecklist() == null
+            }
+        }
+
+        private fun makeStateDirty() {
+            with(checklistLocalDataSource) {
+                setEditedTaskDescription("description")
+                setEditedChecklistName("name")
+            }
         }
     }
 }
