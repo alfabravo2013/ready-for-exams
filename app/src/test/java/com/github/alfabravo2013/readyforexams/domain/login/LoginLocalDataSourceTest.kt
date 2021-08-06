@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 
-internal class LocalDataSourceTest {
-    private val localDataSource = LocalDataSource()
+internal class LoginLocalDataSourceTest {
+    private val localDataSource = LoginLocalDataSource()
 
     private val registeredEmail = "test@test.com"
     private val unregisteredEmail = "unique@test.com"

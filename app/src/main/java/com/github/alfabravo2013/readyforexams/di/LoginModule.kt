@@ -1,6 +1,7 @@
 package com.github.alfabravo2013.readyforexams.di
 
-import com.github.alfabravo2013.readyforexams.domain.login.LocalDataSource
+import com.github.alfabravo2013.readyforexams.domain.login.LoginLocalDataSource
+import com.github.alfabravo2013.readyforexams.domain.login.LoginRemoteDataSource
 import com.github.alfabravo2013.readyforexams.domain.login.LoginRepository
 import com.github.alfabravo2013.readyforexams.domain.login.LoginUseCase
 import com.github.alfabravo2013.readyforexams.domain.passwordreset.PasswordResetUseCase
@@ -12,8 +13,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val loginModule = module {
-    single { LocalDataSource() }
-    single { LoginRepository(get()) }
+    single { LoginLocalDataSource() }
+    single { LoginRemoteDataSource() }
+    single { LoginRepository(get(), get()) }
 
     factory { LoginUseCase(get()) }
     viewModel { LoginViewModel(get()) }

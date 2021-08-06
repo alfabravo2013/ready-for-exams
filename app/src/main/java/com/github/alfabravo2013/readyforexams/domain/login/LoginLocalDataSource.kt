@@ -2,7 +2,7 @@ package com.github.alfabravo2013.readyforexams.domain.login
 
 import com.github.alfabravo2013.readyforexams.util.Result
 
-class LocalDataSource {
+class LoginLocalDataSource {
     private val registeredUsers = mutableMapOf<String, String>()
 
     init {

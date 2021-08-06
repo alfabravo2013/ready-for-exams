@@ -1,6 +1,7 @@
 package com.github.alfabravo2013.readyforexams.domain.login
 
 import com.github.alfabravo2013.readyforexams.util.Result
+import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -9,8 +10,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 internal class LoginRepositoryTest {
-    private val localDataSource = spyk<LocalDataSource>()
-    private val loginRepository = LoginRepository(localDataSource)
+    private val localDataSource = spyk<LoginLocalDataSource>()
+    private val remoteDataSource = mockk<LoginRemoteDataSource>()
+    private val loginRepository = LoginRepository(localDataSource, remoteDataSource)
 
     private val registeredEmail = "test@test.com"
     private val unregisteredEmail = "unique@test.com"
