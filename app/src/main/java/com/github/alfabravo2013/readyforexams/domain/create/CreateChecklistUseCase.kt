@@ -12,7 +12,12 @@ class CreateChecklistUseCase(private val checklistRepository: ChecklistRepositor
             return Result.Failure("Please enter the checklist name")
         }
 
-        checklistRepository.discardEditedChecklist()
-        return checklistRepository.addChecklist(checklistName)
+        val result = checklistRepository.addChecklist(checklistName)
+
+        if (result is Result.Success) {
+            checklistRepository.discardEditedChecklist()
+        }
+
+        return result
     }
 }

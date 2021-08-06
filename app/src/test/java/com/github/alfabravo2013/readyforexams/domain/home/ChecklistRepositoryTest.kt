@@ -1,7 +1,9 @@
 package com.github.alfabravo2013.readyforexams.domain.home
 
 import com.github.alfabravo2013.readyforexams.domain.models.Checklist
+import com.github.alfabravo2013.readyforexams.domain.models.Task
 import com.github.alfabravo2013.readyforexams.domain.models.toChecklistRepresentation
+import com.github.alfabravo2013.readyforexams.domain.models.toTaskRepresentation
 import com.github.alfabravo2013.readyforexams.presentation.models.TaskRepresentation
 import com.github.alfabravo2013.readyforexams.util.Result
 import io.mockk.Runs
@@ -19,7 +21,8 @@ internal class ChecklistRepositoryTest {
     private val checklistLocalDataSource = mockk<ChecklistLocalDataSource>()
     private val checklistRepository = ChecklistRepository(checklistLocalDataSource)
 
-    private val checklist = Checklist("name", listOf())
+    private val name = "name"
+    private val checklist = Checklist(name, listOf())
     private val checklistRepresentation = checklist.toChecklistRepresentation()
 
     @Nested
@@ -63,13 +66,13 @@ internal class ChecklistRepositoryTest {
     @Nested
     @DisplayName("When addChecklist")
     inner class AddChecklistTest {
-        private val name = "name"
-        private val taskRepresentations = listOf<TaskRepresentation>()
 
         @Test
         @DisplayName("Given a unique checklist name Then return Result.Success")
         fun addChecklistWithUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Success
+            every { checklistLocalDataSource.getCreatedTasks() } answers { checklist.tasks }
+            every { checklistLocalDataSource.clearCreatedTasks() } just Runs
 
             val result = checklistRepository.addChecklist(name)
 
@@ -81,6 +84,7 @@ internal class ChecklistRepositoryTest {
         @DisplayName("Given a non-unique checklist name Then return Result.Failure")
         fun addChecklistWithNonUniqueName() {
             every { checklistLocalDataSource.addChecklist(checklist) } returns Result.Failure()
+            every { checklistLocalDataSource.getCreatedTasks() } answers { checklist.tasks }
 
             val result = checklistRepository.addChecklist(name)
 
@@ -121,13 +125,151 @@ internal class ChecklistRepositoryTest {
     inner class DeleteChecklistByNameTest {
 
         @Test
-        @DisplayName("given any checklist name, Then call ChecklistLocalDataSource.deleteChecklistByName with this name")
+        @DisplayName("Given any checklist name, Then call ChecklistLocalDataSource.deleteChecklistByName with this name")
         fun deleteChecklistByName() {
             every { checklistLocalDataSource.deleteChecklistByName(any()) } just Runs
 
             checklistRepository.deleteChecklistByName("name")
 
             verify(exactly = 1) { checklistLocalDataSource.deleteChecklistByName("name") }
+        }
+    }
+
+    @Nested
+    @DisplayName("created Tasks")
+    inner class CreatedTasksTest {
+        private val description = "description"
+        private val task = Task(description)
+
+        @Test
+        @DisplayName("Given no tasks added, When getCreatedTasks, Then returns empty list")
+        fun getCreatedTasksEmpty() {
+            every { checklistLocalDataSource.getCreatedTasks() } answers { emptyList() }
+
+            val tasks: List<TaskRepresentation> = checklistRepository.getCreatedTasks()
+
+            assertTrue(tasks.isEmpty())
+            verify(exactly = 1) { checklistLocalDataSource.getCreatedTasks() }
+        }
+
+        @Test
+        @DisplayName("Given a single task was added, When getCreatedTasks, Then return the list size == 1")
+        fun getCreatedTasksNonEmpty() {
+            every { checklistLocalDataSource.getCreatedTasks() } answers { listOf(task) }
+
+            val tasks: List<TaskRepresentation> = checklistRepository.getCreatedTasks()
+
+            assertEquals(1, tasks.size)
+            verify(exactly = 1) { checklistLocalDataSource.getCreatedTasks() }
+        }
+
+        @Test
+        @DisplayName("Given a single task was added, When getCreatedTasks, Then return TaskRepresentation of the same task")
+        fun getCreatedTasksSame() {
+            every { checklistLocalDataSource.getCreatedTasks() } answers { listOf(task) }
+
+            val tasks = checklistRepository.getCreatedTasks()
+
+            assertEquals(task.toTaskRepresentation(), tasks.first())
+            verify(exactly = 1) { checklistLocalDataSource.getCreatedTasks() }
+        }
+
+        @Test
+        @DisplayName("Given any string, When addTask, Then call addCreatedTask of ChecklistLocalDataSource")
+        fun addTask() {
+            every { checklistLocalDataSource.addCreatedTask(task) } returns true
+
+            checklistRepository.addTask(description)
+
+            verify { checklistLocalDataSource.addCreatedTask(task) }
+        }
+    }
+
+    @Nested
+    @DisplayName("EditedChecklist")
+    inner class EditedChecklistTest {
+
+        @Test
+        @DisplayName("Given any case, When storeEditedChecklist, Then call storeEditedChecklist of ChecklistLocalDataSource")
+        fun storeEditedChecklist() {
+            every { checklistLocalDataSource.storeEditedChecklist() } just Runs
+
+            checklistRepository.storeEditedChecklist()
+
+            verify(exactly = 1) { checklistLocalDataSource.storeEditedChecklist() }
+        }
+
+        @Test
+        @DisplayName("Given any case, When saveEditedChecklist, Then call saveEditedChecklist of ChecklistLocalDataSource")
+        fun saveEditedChecklist() {
+            every { checklistLocalDataSource.saveEditedChecklist() } just Runs
+
+            checklistRepository.saveEditedChecklist()
+
+            verify(exactly = 1) { checklistLocalDataSource.saveEditedChecklist() }
+        }
+
+        @Test
+        @DisplayName("Given any case, When discardEditedChecklist, Then call discardEditedChecklist of ChecklistLocalDataSource")
+        fun discardEditedChecklist() {
+            every { checklistLocalDataSource.discardEditedChecklist() } just Runs
+
+            checklistRepository.discardEditedChecklist()
+
+            verify(exactly = 1) { checklistLocalDataSource.discardEditedChecklist() }
+        }
+    }
+
+    @Nested
+    @DisplayName("EditedChecklistName")
+    inner class EditedChecklistName {
+
+        @Test
+        @DisplayName("Given any string, When setEditedChecklistName, Then call setEditedChecklistName of ChecklistLocalDataSource with the same string")
+        fun setEditedChecklistName() {
+            every { checklistLocalDataSource.setEditedChecklistName(name) } just Runs
+
+            checklistRepository.setEditedChecklistName(name)
+
+            verify(exactly = 1) { checklistLocalDataSource.setEditedChecklistName(name) }
+        }
+
+        @Test
+        @DisplayName("Given any case, When getEditedChecklistName, Then return the name returned by getEditedChecklistName of ChecklistLocalDataSource")
+        fun getEditedChecklistName() {
+            every { checklistRepository.getEditedChecklistName() } returns name
+
+            val result = checklistRepository.getEditedChecklistName()
+
+            assertEquals(name, result)
+            verify(exactly = 1) { checklistLocalDataSource.getEditedChecklistName() }
+        }
+    }
+
+    @Nested
+    @DisplayName("EditedTaskDescription")
+    inner class EditedTaskDescription {
+        private val description = "description"
+
+        @Test
+        @DisplayName("Given any string, When setEditedTaskDescription, Then call setEditedTaskDescription of ChecklistLocalDataSource with the same string")
+        fun setEditedChecklistName() {
+            every { checklistLocalDataSource.setEditedTaskDescription(description) } just Runs
+
+            checklistRepository.setEditedTaskDescription(description)
+
+            verify(exactly = 1) { checklistLocalDataSource.setEditedTaskDescription(description) }
+        }
+
+        @Test
+        @DisplayName("Given any case, When getEditedTaskDescription, Then return the description returned by getEditedTaskDescription of ChecklistLocalDataSource")
+        fun getEditedChecklistName() {
+            every { checklistRepository.getEditedTaskDescription() } returns description
+
+            val result = checklistRepository.getEditedTaskDescription()
+
+            assertEquals(description, result)
+            verify(exactly = 1) { checklistLocalDataSource.getEditedTaskDescription() }
         }
     }
 }
