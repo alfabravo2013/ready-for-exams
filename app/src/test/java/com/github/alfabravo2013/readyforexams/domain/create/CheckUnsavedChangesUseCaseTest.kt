@@ -25,7 +25,7 @@ internal class CheckUnsavedChangesUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given blank editedChecklistName and empty createdTasks in ChecklistLocalDataSource, When isSaveChangesRequired, Then return false")
+    @DisplayName("Given editedChecklistName blank and createdTasks empty, When isSaveChangesRequired, Then return false")
     fun blankChecklistNameAndEmptyTasks() {
         every { checklistRepository.getCreatedTasks() } answers { emptyList() }
         every { checklistRepository.getEditedChecklistName() } returns ""
@@ -40,7 +40,7 @@ internal class CheckUnsavedChangesUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given non-blank editedChecklistName and empty createdTasks in ChecklistLocalDataSource, When isSaveChangesRequired, Then return true")
+    @DisplayName("Given editedChecklistName non-blank and createdTasks empty, When isSaveChangesRequired, Then return true")
     fun nonBlankChecklistNameAndEmptyTasks() {
         every { checklistRepository.getCreatedTasks() } answers { emptyList() }
         every { checklistRepository.getEditedChecklistName() } returns "name"
@@ -55,7 +55,7 @@ internal class CheckUnsavedChangesUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given blank editedChecklistName and non-empty createdTasks in ChecklistLocalDataSource, When isSaveChangesRequired, Then return true")
+    @DisplayName("Given editedChecklistName blank and createdTasks non-empty, When isSaveChangesRequired, Then return true")
     fun blankChecklistNameAndNonEmptyTasks() {
         val list = listOf(Task("description").toTaskRepresentation())
 
@@ -72,7 +72,7 @@ internal class CheckUnsavedChangesUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given non-blank editedChecklistName and non-empty createdTasks in ChecklistLocalDataSource, When isSaveChangesRequired, Then return true")
+    @DisplayName("Given editedChecklistName non-blank and createdTasks non-empty, When isSaveChangesRequired, Then return true")
     fun nonBlankChecklistNameAndNonEmptyTasks() {
         val list = listOf(Task("description").toTaskRepresentation())
 

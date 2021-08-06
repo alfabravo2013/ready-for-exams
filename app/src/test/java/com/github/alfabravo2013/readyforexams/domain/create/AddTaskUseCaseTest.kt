@@ -16,7 +16,7 @@ internal class AddTaskUseCaseTest {
     private val useCase = AddTaskUseCase(checklistRepository)
 
     @Test
-    @DisplayName("Given LocalDataSource has empty or blank editedDescription, When addTask, Then return Result.Failure")
+    @DisplayName("Given editedDescription is empty or blank, When addTask, Then return Result.Failure")
     fun saveTaskWithBlankDescription() {
         val description = ""
 
@@ -31,7 +31,7 @@ internal class AddTaskUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given LocalDataSource has non-blank editedDescription, When addTask, Then return Result.Success")
+    @DisplayName("Given editedDescription is non-blank, When addTask, Then return Result.Success")
     fun saveTaskWithNonBlankDescription() {
         val description = "description"
 
