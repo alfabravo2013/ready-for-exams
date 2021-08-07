@@ -1,32 +1,18 @@
 package com.github.alfabravo2013.readyforexams.domain.login
 
+import com.github.alfabravo2013.readyforexams.networking.PasswordAuthService
 import com.github.alfabravo2013.readyforexams.util.Result
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
-class LoginRemoteDataSource {
-    private val auth: FirebaseAuth by lazy { Firebase.auth }
+class LoginRemoteDataSource(private val authProvider: PasswordAuthService) {
 
-    private var currentUser: FirebaseUser? = auth.currentUser
+    suspend fun login(email: String, password: String): Result = authProvider.login(email, password)
 
-    fun login(email: String, password: String): Result {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                currentUser = if (task.isSuccessful) {
-                    auth.currentUser
-                } else {
-                    null
-                }
-            }
+    suspend fun resetPassword(email: String): Result = authProvider.resetPassword(email)
 
-        return if (currentUser == null) {
-            Result.Failure("Failed to log in")
-        } else {
-            Result.Success
-        }
-    }
+    suspend fun signup(email: String, password: String): Result =
+        authProvider.signup(email, password)
 
-    fun isSignedIn(): Boolean = currentUser != null
+    suspend fun isLoggedIn(): Boolean = authProvider.isLoggedIn()
+
+    suspend fun logout() = authProvider.logout()
 }

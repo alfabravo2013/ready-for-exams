@@ -7,5 +7,5 @@ interface PasswordAuthService {
     suspend fun logout()
     suspend fun signup(email: String, password: String): Result
     suspend fun resetPassword(email: String): Result
-    fun isLoggedIn(): Boolean
+    suspend fun isLoggedIn(): Boolean
 }

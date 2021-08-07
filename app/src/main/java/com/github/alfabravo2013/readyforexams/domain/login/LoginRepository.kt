@@ -7,10 +7,16 @@ class LoginRepository(
     private val loginRemoteDataSource: LoginRemoteDataSource
 ) {
 
-    fun login(email: String, password: String): Result = loginRemoteDataSource.login(email, password)
+    suspend fun login(email: String, password: String): Result =
+        loginRemoteDataSource.login(email, password)
 
-    fun resetPassword(email: String): Result = loginLocalDataSource.resetPassword(email)
+    suspend fun resetPassword(email: String): Result =
+        loginRemoteDataSource.resetPassword(email)
 
-    fun signUp(email: String, password: String): Result =
-        loginLocalDataSource.signUp(email, password)
+    suspend fun signup(email: String, password: String): Result =
+        loginRemoteDataSource.signup(email, password)
+
+    suspend fun logout() = loginRemoteDataSource.logout()
+
+    suspend fun isLoggedIn() = loginRemoteDataSource.isLoggedIn()
 }

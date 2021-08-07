@@ -7,7 +7,7 @@ import com.github.alfabravo2013.readyforexams.util.isInvalidPassword
 
 class SignupUseCase(private val loginRepository: LoginRepository) {
 
-    fun signup(email: String, password: String, confirmedPassword: String): Result {
+    suspend fun signup(email: String, password: String, confirmedPassword: String): Result {
         if (email.isInvalidEmail()) {
             return Result.Failure("Invalid email")
         }
@@ -20,6 +20,6 @@ class SignupUseCase(private val loginRepository: LoginRepository) {
             return Result.Failure("The password does not match the confirmed password")
         }
 
-        return loginRepository.signUp(email, password)
+        return loginRepository.signup(email, password)
     }
 }
