@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.alfabravo2013.readyforexams.domain.login.LoginUseCase
 import com.github.alfabravo2013.readyforexams.util.Result
 import com.github.alfabravo2013.readyforexams.util.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase
@@ -17,7 +19,11 @@ class LoginViewModel(
     fun onLoginButtonClick(email: String, password: String) = viewModelScope.launch {
         _onEvent.value = OnEvent.ShowProgress
 
-        when (val result = loginUseCase.login(email, password)) {
+        val result = withContext(Dispatchers.IO) {
+            loginUseCase.login(email, password)
+        }
+
+        when (result) {
             is Result.Success -> _onEvent.value = OnEvent.NavigateToHomeScreen
             is Result.Failure -> {
                 val message = result.errorMessage
@@ -41,6 +47,6 @@ class LoginViewModel(
         object NavigateToHomeScreen : OnEvent()
         object NavigateToSignupScreen : OnEvent()
         object NavigateToPasswordResetScreen : OnEvent()
-        data class Error(val message : String) : OnEvent()
+        data class Error(val message: String) : OnEvent()
     }
 }
