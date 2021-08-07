@@ -7,22 +7,29 @@ import com.google.firebase.ktx.Firebase
 
 class FirebasePasswordAuthService : PasswordAuthService {
     private val auth = Firebase.auth
+    private var result: Result? = null
 
     override suspend fun login(email: String, password: String): Result {
-        val loginResult = auth.signInWithEmailAndPassword(email, password)
-        return getResult(loginResult)
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            result = getResult(task)
+        }
+        return result ?: Result.Failure("No result available")
     }
 
     override suspend fun logout() = auth.signOut()
 
     override suspend fun signup(email: String, password: String): Result {
-        val signupResult = auth.createUserWithEmailAndPassword(email, password)
-        return getResult(signupResult)
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            result = getResult(task)
+        }
+        return result ?: Result.Failure("No result available")
     }
 
     override suspend fun resetPassword(email: String): Result {
-        val passwordResetResult = auth.sendPasswordResetEmail(email)
-        return getResult(passwordResetResult)
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            result = getResult(task)
+        }
+        return result ?: Result.Failure("No result available")
     }
 
     override suspend fun isLoggedIn(): Boolean = auth.currentUser != null
