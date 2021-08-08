@@ -32,7 +32,7 @@ class FirebasePasswordAuthService : PasswordAuthService {
             } catch (e: Exception) {
                 return@withContext Result.Failure(e.message ?: "Unknown reason")
             }
-    }
+        }
 
     override suspend fun resetPassword(email: String): Result = withContext(Dispatchers.IO) {
         try {
