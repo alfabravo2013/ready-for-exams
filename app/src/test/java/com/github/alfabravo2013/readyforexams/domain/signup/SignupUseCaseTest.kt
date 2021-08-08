@@ -24,7 +24,7 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup("email", validPassword, validPassword)
 
         assertTrue(actual is Result.Failure)
-        verify(exactly = 0) { repository.signUp(any(), any()) }
+        verify(exactly = 0) { repository.signup(any(), any()) }
     }
 
     @Test
@@ -33,7 +33,7 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(unregisteredEmail, invalidPassword, invalidPassword)
 
         assertTrue(actual is Result.Failure)
-        verify(exactly = 0) { repository.signUp(any(), any()) }
+        verify(exactly = 0) { repository.signup(any(), any()) }
     }
 
     @Test
@@ -44,28 +44,28 @@ internal class SignupUseCaseTest {
         val actual = signupUseCase.signup(unregisteredEmail, validPassword, confirmedPassword)
 
         assertTrue(actual is Result.Failure)
-        verify(exactly = 0) { repository.signUp(any(), any()) }
+        verify(exactly = 0) { repository.signup(any(), any()) }
     }
 
     @Test
     @DisplayName("Given unregistered email and valid password and confirmed password Then Result.Success")
     fun unregisteredEmail() {
-        every { repository.signUp(unregisteredEmail, validPassword) } returns Result.Success
+        every { repository.signup(unregisteredEmail, validPassword) } returns Result.Success
 
         val actual = signupUseCase.signup(unregisteredEmail, validPassword, validPassword)
 
         assertTrue(actual is Result.Success)
-        verify(exactly = 1) { repository.signUp(unregisteredEmail, validPassword) }
+        verify(exactly = 1) { repository.signup(unregisteredEmail, validPassword) }
     }
 
     @Test
     @DisplayName("Given registered email and and valid password and confirmed password Then Result.Failure")
     fun registeredEmail() {
-        every { repository.signUp(not(unregisteredEmail), any()) } returns Result.Failure()
+        every { repository.signup(not(unregisteredEmail), any()) } returns Result.Failure()
 
         val actual = signupUseCase.signup(registeredEmail, validPassword, validPassword)
 
         assertTrue(actual is Result.Failure)
-        verify(exactly = 1) { repository.signUp(registeredEmail, validPassword) }
+        verify(exactly = 1) { repository.signup(registeredEmail, validPassword) }
     }
 }

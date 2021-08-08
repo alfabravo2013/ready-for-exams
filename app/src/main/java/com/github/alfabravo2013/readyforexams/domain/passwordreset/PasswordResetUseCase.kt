@@ -6,7 +6,7 @@ import com.github.alfabravo2013.readyforexams.util.isInvalidEmail
 
 class PasswordResetUseCase(private val loginRepository: LoginRepository) {
 
-    fun resetPassword(email: String): Result {
+    suspend fun resetPassword(email: String): Result {
         if (email.isInvalidEmail()) {
             return Result.Failure("Invalid email")
         }

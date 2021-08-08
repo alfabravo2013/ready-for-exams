@@ -73,6 +73,7 @@ dependencies {
     // firebase
     implementation platform('com.google.firebase:firebase-bom:28.3.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
 
     // mockk
     testImplementation "io.mockk:mockk:1.12.0"
