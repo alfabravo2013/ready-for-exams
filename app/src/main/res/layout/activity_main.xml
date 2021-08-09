@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,24 +14,36 @@
         android:layout_gravity="center"
         app:title="">
 
-        <TextView
-            android:id="@+id/activity_main_toolbar_custom_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/HeaderText"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:maxLines="1"
-            android:maxLength="24"
-            android:ellipsize="end"
-            tools:text="Toolbar Custom Title" />
-
         <ImageView
             android:id="@+id/activity_main_toolbar_go_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
             android:visibility="gone"
-            android:src="@drawable/ic_back" />
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/activity_main_toolbar_custom_title"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLength="24"
+            android:maxLines="1"
+            tools:text="Toolbar Custom Title" />
+
+        <ImageView
+            android:id="@+id/activity_main_toolbar_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:src="@drawable/ic_logout"
+            android:visibility="gone"
+            app:tint="@color/black"
+            tools:visibility="visible" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.fragment.app.FragmentContainerView
@@ -40,7 +51,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:navGraph="@navigation/navigation_main"
-        app:defaultNavHost="true"/>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation_main" />
 
 </LinearLayout>

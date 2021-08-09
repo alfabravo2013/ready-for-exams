@@ -6,12 +6,16 @@ import com.github.alfabravo2013.readyforexams.InstantExecutorExtension
 import com.github.alfabravo2013.readyforexams.domain.login.LoginUseCase
 import com.github.alfabravo2013.readyforexams.util.Result
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -52,13 +56,13 @@ internal class LoginViewModelTest {
 
     @Test
     @DisplayName("Given UseCase returns Success, When onLoginButtonClick Then navigate to HomeScreen")
-    fun onLoginButtonClickValidCredentials() {
-        every { loginUseCase.login(registeredEmail, correctPassword) } returns Result.Success
+    fun onLoginButtonClickValidCredentials() = runBlocking {
+        coEvery { loginUseCase.login(registeredEmail, correctPassword) } returns Result.Success
 
         viewModel.onLoginButtonClick(registeredEmail, correctPassword)
 
-        verify(exactly = 1) { loginUseCase.login(registeredEmail, correctPassword) }
-        verifySequence {
+        coVerify(exactly = 1) { loginUseCase.login(registeredEmail, correctPassword) }
+        coVerifySequence {
             observer.onChanged(LoginViewModel.OnEvent.ShowProgress)
             observer.onChanged(LoginViewModel.OnEvent.NavigateToHomeScreen)
             observer.onChanged(LoginViewModel.OnEvent.HideProgress)
@@ -67,15 +71,15 @@ internal class LoginViewModelTest {
 
     @Test
     @DisplayName("Given UseCase returns Failure, When onLoginButtonClick Then display error")
-    fun onLoginButtonClickInvalidCredentials() {
-        every {
+    fun onLoginButtonClickInvalidCredentials() = runBlocking {
+        coEvery {
             loginUseCase.login(not(registeredEmail), any())
         } returns Result.Failure("error")
 
         viewModel.onLoginButtonClick("email", correctPassword)
 
-        verify(exactly = 1) { loginUseCase.login("email", correctPassword) }
-        verifySequence {
+        coVerify(exactly = 1) { loginUseCase.login("email", correctPassword) }
+        coVerifySequence {
             observer.onChanged(LoginViewModel.OnEvent.ShowProgress)
             observer.onChanged(LoginViewModel.OnEvent.Error("error"))
             observer.onChanged(LoginViewModel.OnEvent.HideProgress)

@@ -1,9 +1,11 @@
 package com.github.alfabravo2013.readyforexams.domain.login
 
 import com.github.alfabravo2013.readyforexams.util.Result
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verify
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -25,38 +27,54 @@ internal class LoginRepositoryTest {
 
         @Test
         @DisplayName("Given registered email and correct password then Result.Success")
-        fun loginWithExistingEmailAndCorrectPassword() {
+        fun loginWithExistingEmailAndCorrectPassword() = runBlocking {
+            coEvery {
+                remoteDataSource.login(registeredEmail, correctPassword)
+            } answers { Result.Success }
+
             val actual = loginRepository.login(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
-            verify { localDataSource.login(registeredEmail, correctPassword) }
+            coVerify { remoteDataSource.login(registeredEmail, correctPassword) }
         }
 
         @Test
         @DisplayName("Given registered email and incorrect password Then Result.Failure")
-        fun loginWithExistingEmailAndIncorrectPassword() {
+        fun loginWithExistingEmailAndIncorrectPassword() = runBlocking {
+            coEvery {
+                remoteDataSource.login(registeredEmail, incorrectPassword)
+            } answers { Result.Failure("error") }
+
             val actual = loginRepository.login(registeredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
-            verify { localDataSource.login(registeredEmail, incorrectPassword) }
+            coVerify { remoteDataSource.login(registeredEmail, incorrectPassword) }
         }
 
         @Test
         @DisplayName("Given unregistered email and correct password Then Result.Failure")
-        fun loginWithNonExistingEmailAndCorrectPassword() {
+        fun loginWithNonExistingEmailAndCorrectPassword() = runBlocking {
+            coEvery {
+                remoteDataSource.login(unregisteredEmail, correctPassword)
+            } answers { Result.Failure("error") }
+
             val actual = loginRepository.login(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
-            verify { localDataSource.login(unregisteredEmail, correctPassword) }
+            coVerify { remoteDataSource.login(unregisteredEmail, correctPassword) }
         }
 
         @Test
         @DisplayName("Given unregistered email and incorrect password Then Result.Failure")
-        fun loginWithNonExistingEmailAndIncorrectPassword() {
+        fun loginWithNonExistingEmailAndIncorrectPassword() = runBlocking {
+            coEvery {
+                remoteDataSource.login(unregisteredEmail, incorrectPassword)
+            } answers { Result.Failure("error") }
+
             val actual = loginRepository.login(unregisteredEmail, incorrectPassword)
 
             assertTrue(actual is Result.Failure)
-            verify { localDataSource.login(unregisteredEmail, incorrectPassword) }
+            coVerify { remoteDataSource.login(unregisteredEmail, incorrectPassword) }
         }
     }
 
@@ -65,20 +83,28 @@ internal class LoginRepositoryTest {
     inner class SignUpTests {
         @Test
         @DisplayName("Given registered email and any password Then Result.Failure")
-        fun signUpWithRegisteredEmail() {
-            val actual = localDataSource.signUp(registeredEmail, correctPassword)
+        fun signUpWithRegisteredEmail() = runBlocking {
+            coEvery {
+                remoteDataSource.signup(registeredEmail, correctPassword)
+            } answers { Result.Failure("error") }
+
+            val actual = remoteDataSource.signup(registeredEmail, correctPassword)
 
             assertTrue(actual is Result.Failure)
-            verify { localDataSource.signUp(registeredEmail, correctPassword) }
+            coVerify { remoteDataSource.signup(registeredEmail, correctPassword) }
         }
 
         @Test
         @DisplayName("Given unregistered email and any password Then Result.Success")
-        fun signUpWithUnregisteredEmail() {
-            val actual = localDataSource.signUp(unregisteredEmail, correctPassword)
+        fun signUpWithUnregisteredEmail() = runBlocking {
+            coEvery {
+                remoteDataSource.signup(unregisteredEmail, correctPassword)
+            } answers { Result.Success }
+
+            val actual = remoteDataSource.signup(unregisteredEmail, correctPassword)
 
             assertTrue(actual is Result.Success)
-            verify { localDataSource.signUp(unregisteredEmail, correctPassword) }
+            coVerify { remoteDataSource.signup(unregisteredEmail, correctPassword) }
         }
     }
 
@@ -88,20 +114,28 @@ internal class LoginRepositoryTest {
 
         @Test
         @DisplayName("Given registered email Then Result.Success")
-        fun resetPasswordWithRegisteredEmail() {
-            val actual = localDataSource.resetPassword(registeredEmail)
+        fun resetPasswordWithRegisteredEmail() = runBlocking {
+            coEvery {
+                remoteDataSource.resetPassword(registeredEmail)
+            } answers { Result.Success }
+
+            val actual = remoteDataSource.resetPassword(registeredEmail)
 
             assertTrue(actual is Result.Success)
-            verify { localDataSource.resetPassword(registeredEmail) }
+            coVerify { remoteDataSource.resetPassword(registeredEmail) }
         }
 
         @Test
         @DisplayName("Given unregistered email Then Result.Failure")
-        fun resetPasswordWithUnregisteredEmail() {
-            val actual = localDataSource.resetPassword(unregisteredEmail)
+        fun resetPasswordWithUnregisteredEmail() = runBlocking {
+            coEvery {
+                remoteDataSource.resetPassword(unregisteredEmail)
+            } answers { Result.Failure("error") }
+
+            val actual = remoteDataSource.resetPassword(unregisteredEmail)
 
             assertTrue(actual is Result.Failure)
-            verify { localDataSource.resetPassword(unregisteredEmail) }
+            coVerify { remoteDataSource.resetPassword(unregisteredEmail) }
         }
     }
 }
